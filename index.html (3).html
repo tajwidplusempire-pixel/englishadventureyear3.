@@ -1,0 +1,2177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>English Adventure Year 3 - KSSR CEFR Primary English</title>
+  <!-- Tailwind CSS CDN -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Tone.js for kid-friendly procedural sound effects -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/tone/14.8.49/Tone.min.js"></script>
+  <!-- Google Fonts: Comic Neue & Fredoka for playful, legible child-friendly typography -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;500;600;700&family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+  
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          fontFamily: {
+            fredoka: ['Fredoka', 'sans-serif'],
+            sans: ['Inter', 'sans-serif'],
+          },
+          colors: {
+            adventure: {
+              yellow: '#FBBF24',
+              orange: '#F97316',
+              sky: '#38BDF8',
+              emerald: '#10B981',
+              violet: '#8B5CF6',
+              pink: '#EC4899',
+              dark: '#1E293B',
+              cream: '#FEF9C3'
+            }
+          },
+          keyframes: {
+            bounceGentle: {
+              '0%, 100%': { transform: 'translateY(-4%)' },
+              '50%': { transform: 'translateY(0)' },
+            },
+            wiggle: {
+              '0%, 100%': { transform: 'rotate(-3deg)' },
+              '50%': { transform: 'rotate(3deg)' },
+            },
+            pop: {
+              '0%': { transform: 'scale(0.8)', opacity: '0' },
+              '100%': { transform: 'scale(1)', opacity: '1' }
+            }
+          },
+          animation: {
+            bounceGentle: 'bounceGentle 2.2s infinite ease-in-out',
+            wiggle: 'wiggle 0.8s infinite ease-in-out',
+            pop: 'pop 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275)'
+          }
+        }
+      }
+    }
+  </script>
+
+  <style>
+    body {
+      font-family: 'Fredoka', 'Inter', sans-serif;
+      user-select: none;
+      -webkit-tap-highlight-color: transparent;
+    }
+    .custom-scroll::-webkit-scrollbar {
+      width: 8px;
+      height: 8px;
+    }
+    .custom-scroll::-webkit-scrollbar-thumb {
+      background-color: #CBD5E1;
+      border-radius: 9999px;
+    }
+    .game-card-shadow {
+      box-shadow: 0 8px 0px 0px rgba(0, 0, 0, 0.12);
+    }
+    .game-card-shadow-active:active {
+      box-shadow: 0 2px 0px 0px rgba(0, 0, 0, 0.12);
+      transform: translateY(6px);
+    }
+    .btn-3d {
+      box-shadow: 0 6px 0px 0px rgba(0,0,0,0.18);
+      transition: all 0.1s ease;
+    }
+    .btn-3d:active {
+      transform: translateY(4px);
+      box-shadow: 0 2px 0px 0px rgba(0,0,0,0.18);
+    }
+    .slot-box {
+      min-height: 54px;
+      border: 3px dashed #94A3B8;
+    }
+  </style>
+</head>
+<body class="bg-gradient-to-b from-sky-100 via-amber-50 to-emerald-100 min-h-screen text-slate-800 flex flex-col justify-between">
+
+  <header class="w-full bg-white/90 backdrop-blur-md border-b-4 border-amber-300 sticky top-0 z-40 px-4 py-3 shadow-md">
+    <div class="max-w-6xl mx-auto flex items-center justify-between">
+      <!-- Logo & Title -->
+      <div class="flex items-center space-x-3 cursor-pointer" onclick="app.navigate('home')">
+        <div class="w-12 h-12 bg-amber-400 rounded-2xl flex items-center justify-center border-2 border-amber-600 shadow-inner text-2xl animate-wiggle">
+          🧭
+        </div>
+        <div>
+          <h1 class="text-xl sm:text-2xl font-bold tracking-wide text-slate-800 flex items-center gap-2">
+            English Adventure <span class="bg-amber-400 text-amber-900 text-xs sm:text-sm px-2.5 py-0.5 rounded-full uppercase tracking-wider font-extrabold border border-amber-500">Year 3</span>
+          </h1>
+          <p class="text-xs text-slate-500 font-medium">KSSR CEFR Alignment Draft • Bertema Pengembaraan Kanak-Kanak</p>
+        </div>
+      </div>
+
+      <!-- Navigation & Gamification Stats -->
+      <div class="flex items-center space-x-2 sm:space-x-4">
+        <!-- Stars Count -->
+        <div class="flex items-center bg-amber-100 border-2 border-amber-400 px-3 py-1.5 rounded-2xl gap-1.5 shadow-sm">
+          <span class="text-xl">⭐</span>
+          <span id="player-stars" class="text-base sm:text-lg font-bold text-amber-800">0</span>
+        </div>
+
+        <!-- Audio mute/toggle -->
+        <button id="btn-sound-toggle" onclick="app.toggleSound()" class="w-10 h-10 rounded-2xl bg-slate-100 border-2 border-slate-300 hover:bg-slate-200 flex items-center justify-center text-lg transition" title="Pasang/Senyapkan Bunyi">
+          🔊
+        </button>
+
+        <!-- Help / Info Button -->
+        <button onclick="app.openModal('modal-help')" class="w-10 h-10 rounded-2xl bg-emerald-100 border-2 border-emerald-400 hover:bg-emerald-200 text-emerald-800 flex items-center justify-center font-bold text-lg transition" title="Panduan & Cara Bermain">
+          ❓
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <main class="flex-grow w-full max-w-6xl mx-auto p-4 sm:p-6">
+
+    <!-- ========================================================
+         VIEW 1: HOME PAGE / ADVENTURE MAP
+         ======================================================== -->
+    <section id="view-home" class="block animate-pop">
+      <!-- Mascot Welcome Banner -->
+      <div class="bg-gradient-to-r from-amber-400 via-orange-400 to-amber-500 rounded-3xl p-6 sm:p-8 text-white shadow-xl relative overflow-hidden border-4 border-amber-300 mb-8">
+        <div class="relative z-10 max-w-xl">
+          <span class="bg-white/20 text-white text-xs sm:text-sm font-semibold px-3 py-1 rounded-full uppercase tracking-wider">
+            👋 Selamat Datang Pengembara Muda!
+          </span>
+          <h2 class="text-2xl sm:text-4xl font-black mt-2 mb-2 leading-tight drop-shadow-sm">
+            Ready to explore English Town & beyond?
+          </h2>
+          <p class="text-amber-100 text-sm sm:text-base leading-relaxed mb-4">
+            Sertai <strong>Pip the Sun Bear</strong> melawat 6 lokasi menarik. Asah kemahiran mendengar (listening), bertutur (speaking), membaca (reading), tatabahasa (grammar), dan menulis (writing)!
+          </p>
+          <div class="flex flex-wrap gap-3">
+            <button onclick="app.startRandomQuest()" class="btn-3d bg-white text-amber-900 font-bold px-6 py-3 rounded-2xl hover:bg-amber-50 text-base flex items-center gap-2">
+              🚀 Mula Pengembaraan Rawak
+            </button>
+            <button onclick="app.openModal('modal-dskp')" class="btn-3d bg-amber-700/60 hover:bg-amber-700 text-white font-semibold px-4 py-3 rounded-2xl text-sm border border-amber-300">
+              📋 Nota Rujukan DSKP KSSR
+            </button>
+          </div>
+        </div>
+
+        <!-- Mascot Illustration (Original SVG Sun Bear) -->
+        <div class="absolute -right-4 -bottom-6 w-48 sm:w-60 md:w-72 pointer-events-none opacity-95 animate-bounceGentle">
+          <svg viewBox="0 0 200 200" class="w-full h-full drop-shadow-2xl">
+            <!-- Ears -->
+            <circle cx="55" cy="55" r="28" fill="#4B2810" />
+            <circle cx="55" cy="55" r="16" fill="#D97706" />
+            <circle cx="145" cy="55" r="28" fill="#4B2810" />
+            <circle cx="145" cy="55" r="16" fill="#D97706" />
+            <!-- Head -->
+            <ellipse cx="100" cy="105" rx="65" ry="60" fill="#6B3A19" />
+            <!-- Sun Bear Chest/Face Crescent Patch -->
+            <path d="M 65 110 Q 100 80 135 110 Q 100 135 65 110 Z" fill="#FDE68A" />
+            <!-- Snout -->
+            <ellipse cx="100" cy="115" rx="26" ry="20" fill="#FBBF24" />
+            <ellipse cx="100" cy="107" rx="10" ry="7" fill="#1E293B" />
+            <path d="M 100 114 Q 93 125 87 122 M 100 114 Q 107 125 113 122" stroke="#1E293B" stroke-width="3" fill="none" stroke-linecap="round"/>
+            <!-- Eyes -->
+            <circle cx="78" cy="92" r="8" fill="#1E293B" />
+            <circle cx="80" cy="90" r="3" fill="#FFFFFF" />
+            <circle cx="122" cy="92" r="8" fill="#1E293B" />
+            <circle cx="124" cy="90" r="3" fill="#FFFFFF" />
+            <!-- Explorer Cap -->
+            <ellipse cx="100" cy="58" rx="42" ry="14" fill="#15803D" />
+            <path d="M 68 55 Q 100 25 132 55 Z" fill="#16A34A" />
+            <circle cx="100" cy="45" r="5" fill="#FACC15" />
+          </svg>
+        </div>
+      </div>
+
+      <div class="flex items-center justify-between mb-4">
+        <div>
+          <h3 class="text-xl font-bold text-slate-800 flex items-center gap-2">
+            🗺️ Pilih Lokasi & Misi Pembelajaran
+          </h3>
+          <p class="text-xs text-slate-500">Pilih mana-mana stesen untuk memulakan latihan interaktif Tahun 3.</p>
+        </div>
+        <button onclick="app.resetProgress()" class="text-xs text-slate-400 hover:text-red-500 underline">
+          Set Semula Skor
+        </button>
+      </div>
+
+      <!-- Grid of Modules -->
+      <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
+        
+        <!-- Modul A: Vocabulary Quest -->
+        <div onclick="app.navigate('vocab')" class="bg-white rounded-3xl p-5 border-3 border-amber-300 game-card-shadow game-card-shadow-active cursor-pointer hover:border-amber-500 transition relative overflow-hidden group">
+          <div class="w-14 h-14 rounded-2xl bg-amber-100 flex items-center justify-center text-3xl mb-3 group-hover:scale-110 transition">
+            🔤
+          </div>
+          <span class="text-[11px] font-bold text-amber-600 bg-amber-50 px-2.5 py-1 rounded-full uppercase tracking-wider">English Town</span>
+          <h4 class="text-lg font-bold text-slate-800 mt-1">Vocabulary Quest</h4>
+          <p class="text-xs text-slate-500 mt-1 leading-relaxed">Kad perkataan, maksud BM, audio sebutan &amp; 3 jenis kuiz padanan.</p>
+          <div class="mt-4 flex items-center justify-between text-xs font-bold text-amber-700">
+            <span>Buka Modul &rarr;</span>
+            <span id="badge-vocab" class="text-slate-400">0/6 Siap</span>
+          </div>
+        </div>
+
+        <!-- Modul B: Listening Mission -->
+        <div onclick="app.navigate('listening')" class="bg-white rounded-3xl p-5 border-3 border-sky-300 game-card-shadow game-card-shadow-active cursor-pointer hover:border-sky-500 transition relative overflow-hidden group">
+          <div class="w-14 h-14 rounded-2xl bg-sky-100 flex items-center justify-center text-3xl mb-3 group-hover:scale-110 transition">
+            🎧
+          </div>
+          <span class="text-[11px] font-bold text-sky-600 bg-sky-50 px-2.5 py-1 rounded-full uppercase tracking-wider">Animal Park</span>
+          <h4 class="text-lg font-bold text-slate-800 mt-1">Listening Mission</h4>
+          <p class="text-xs text-slate-500 mt-1 leading-relaxed">Dengar arahan, dialog ringkas &amp; kenal pasti butiran penting.</p>
+          <div class="mt-4 flex items-center justify-between text-xs font-bold text-sky-700">
+            <span>Buka Modul &rarr;</span>
+            <span id="badge-listening" class="text-slate-400">0/5 Siap</span>
+          </div>
+        </div>
+
+        <!-- Modul C: Grammar Challenge -->
+        <div onclick="app.navigate('grammar')" class="bg-white rounded-3xl p-5 border-3 border-emerald-300 game-card-shadow game-card-shadow-active cursor-pointer hover:border-emerald-500 transition relative overflow-hidden group">
+          <div class="w-14 h-14 rounded-2xl bg-emerald-100 flex items-center justify-center text-3xl mb-3 group-hover:scale-110 transition">
+            ⚖️
+          </div>
+          <span class="text-[11px] font-bold text-emerald-600 bg-emerald-50 px-2.5 py-1 rounded-full uppercase tracking-wider">Mystery Library</span>
+          <h4 class="text-lg font-bold text-slate-800 mt-1">Grammar Challenge</h4>
+          <p class="text-xs text-slate-500 mt-1 leading-relaxed">Present Continuous, Prepositions, Plural nouns &amp; penerangan jawapan.</p>
+          <div class="mt-4 flex items-center justify-between text-xs font-bold text-emerald-700">
+            <span>Buka Modul &rarr;</span>
+            <span id="badge-grammar" class="text-slate-400">0/6 Siap</span>
+          </div>
+        </div>
+
+        <!-- Modul D: Sentence Builder -->
+        <div onclick="app.navigate('sentence')" class="bg-white rounded-3xl p-5 border-3 border-purple-300 game-card-shadow game-card-shadow-active cursor-pointer hover:border-purple-500 transition relative overflow-hidden group">
+          <div class="w-14 h-14 rounded-2xl bg-purple-100 flex items-center justify-center text-3xl mb-3 group-hover:scale-110 transition">
+            🧱
+          </div>
+          <span class="text-[11px] font-bold text-purple-600 bg-purple-50 px-2.5 py-1 rounded-full uppercase tracking-wider">Adventure Island</span>
+          <h4 class="text-lg font-bold text-slate-800 mt-1">Sentence Builder</h4>
+          <p class="text-xs text-slate-500 mt-1 leading-relaxed">Susun perkataan jadi ayat bermakna, semak tanda baca &amp; struktur.</p>
+          <div class="mt-4 flex items-center justify-between text-xs font-bold text-purple-700">
+            <span>Buka Modul &rarr;</span>
+            <span id="badge-sentence" class="text-slate-400">0/5 Siap</span>
+          </div>
+        </div>
+
+        <!-- Modul E: Reading Adventure -->
+        <div onclick="app.navigate('reading')" class="bg-white rounded-3xl p-5 border-3 border-rose-300 game-card-shadow game-card-shadow-active cursor-pointer hover:border-rose-500 transition relative overflow-hidden group">
+          <div class="w-14 h-14 rounded-2xl bg-rose-100 flex items-center justify-center text-3xl mb-3 group-hover:scale-110 transition">
+            📖
+          </div>
+          <span class="text-[11px] font-bold text-rose-600 bg-rose-50 px-2.5 py-1 rounded-full uppercase tracking-wider">Story Village</span>
+          <h4 class="text-lg font-bold text-slate-800 mt-1">Reading Adventure</h4>
+          <p class="text-xs text-slate-500 mt-1 leading-relaxed">Petikan pendek, notis sekolah, True/False &amp; soalan pemahaman.</p>
+          <div class="mt-4 flex items-center justify-between text-xs font-bold text-rose-700">
+            <span>Buka Modul &rarr;</span>
+            <span id="badge-reading" class="text-slate-400">0/4 Siap</span>
+          </div>
+        </div>
+
+        <!-- Modul F: Writing Workshop -->
+        <div onclick="app.navigate('writing')" class="bg-white rounded-3xl p-5 border-3 border-teal-300 game-card-shadow game-card-shadow-active cursor-pointer hover:border-teal-500 transition relative overflow-hidden group">
+          <div class="w-14 h-14 rounded-2xl bg-teal-100 flex items-center justify-center text-3xl mb-3 group-hover:scale-110 transition">
+            ✏️
+          </div>
+          <span class="text-[11px] font-bold text-teal-600 bg-teal-50 px-2.5 py-1 rounded-full uppercase tracking-wider">Word Castle</span>
+          <h4 class="text-lg font-bold text-slate-800 mt-1">Writing Workshop</h4>
+          <p class="text-xs text-slate-500 mt-1 leading-relaxed">Lengkapkan ayat berpandu gambar, perenggan pendek &amp; semakan kata.</p>
+          <div class="mt-4 flex items-center justify-between text-xs font-bold text-teal-700">
+            <span>Buka Modul &rarr;</span>
+            <span id="badge-writing" class="text-slate-400">0/4 Siap</span>
+          </div>
+        </div>
+
+        <!-- Modul G: Story Time -->
+        <div onclick="app.navigate('story')" class="bg-white rounded-3xl p-5 border-3 border-indigo-300 game-card-shadow game-card-shadow-active cursor-pointer hover:border-indigo-500 transition relative overflow-hidden group">
+          <div class="w-14 h-14 rounded-2xl bg-indigo-100 flex items-center justify-center text-3xl mb-3 group-hover:scale-110 transition">
+            🌳
+          </div>
+          <span class="text-[11px] font-bold text-indigo-600 bg-indigo-50 px-2.5 py-1 rounded-full uppercase tracking-wider">Green Jungle</span>
+          <h4 class="text-lg font-bold text-slate-800 mt-1">Story Time</h4>
+          <p class="text-xs text-slate-500 mt-1 leading-relaxed">Cerita interaktif bersuara: "The Mystery of the Green Jungle Key".</p>
+          <div class="mt-4 flex items-center justify-between text-xs font-bold text-indigo-700">
+            <span>Buka Modul &rarr;</span>
+            <span id="badge-story" class="text-slate-400">Mula Baca &rarr;</span>
+          </div>
+        </div>
+
+        <!-- Modul H: Mini Quiz -->
+        <div onclick="app.navigate('quiz')" class="bg-gradient-to-br from-amber-500 to-orange-500 rounded-3xl p-5 border-3 border-amber-300 game-card-shadow game-card-shadow-active cursor-pointer text-white relative overflow-hidden group">
+          <div class="w-14 h-14 rounded-2xl bg-white/20 flex items-center justify-center text-3xl mb-3 group-hover:scale-110 transition">
+            🏆
+          </div>
+          <span class="text-[11px] font-bold text-amber-100 bg-black/20 px-2.5 py-1 rounded-full uppercase tracking-wider">Cabaran Akhir</span>
+          <h4 class="text-lg font-bold text-white mt-1">Mini Quiz Arena</h4>
+          <p class="text-xs text-amber-100 mt-1 leading-relaxed">Ujian gabungan 6 soalan pelbagai kemahiran &amp; Sijil Bintang!</p>
+          <div class="mt-4 flex items-center justify-between text-xs font-bold text-white">
+            <span>Uji Sekarang &rarr;</span>
+            <span>⭐ Skor Maksimum</span>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- ========================================================
+         VIEW 2: MODULE A - VOCABULARY QUEST
+         ======================================================== -->
+    <section id="view-vocab" class="hidden">
+      <!-- Top Bar for Modules -->
+      <div class="flex items-center justify-between bg-white rounded-2xl p-4 border-2 border-amber-300 shadow-sm mb-6">
+        <button onclick="app.navigate('home')" class="btn-3d bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold px-4 py-2 rounded-xl text-sm flex items-center gap-1">
+          &larr; Peta Utama
+        </button>
+        <div class="text-center">
+          <span class="text-xs uppercase font-extrabold text-amber-600 tracking-wider">Modul A • English Town</span>
+          <h3 class="text-lg sm:text-xl font-bold text-slate-800">Vocabulary Quest</h3>
+        </div>
+        <div class="flex items-center gap-2">
+          <span class="text-xs font-bold text-slate-500 hidden sm:inline">Tema:</span>
+          <select id="vocab-theme-select" onchange="app.vocab.changeTheme(this.value)" class="bg-amber-50 border-2 border-amber-400 text-amber-900 rounded-xl px-2 py-1 text-xs font-bold">
+            <option value="daily_routines">Daily Routines &amp; School</option>
+            <option value="places_directions">Places &amp; Directions</option>
+            <option value="food_health">Food &amp; Healthy Eating</option>
+            <option value="animals_nature">Wild Animals &amp; Nature</option>
+          </select>
+        </div>
+      </div>
+
+      <!-- Tab Buttons for Vocab: Flashcards vs Practice Games -->
+      <div class="flex gap-2 mb-6">
+        <button id="vocab-tab-btn-cards" onclick="app.vocab.switchTab('cards')" class="btn-3d flex-1 py-2.5 rounded-2xl font-bold text-sm bg-amber-400 text-slate-900 border-2 border-amber-500">
+          🃏 Word Explorer (Kad Belajar)
+        </button>
+        <button id="vocab-tab-btn-game" onclick="app.vocab.switchTab('game')" class="btn-3d flex-1 py-2.5 rounded-2xl font-bold text-sm bg-white text-slate-600 border-2 border-slate-200 hover:bg-slate-50">
+          🎯 Vocab Game Challenge
+        </button>
+      </div>
+
+      <!-- Tab 1: Interactive Word Cards -->
+      <div id="vocab-tab-cards" class="block">
+        <div class="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4" id="vocab-cards-grid">
+          <!-- Populated by JavaScript -->
+        </div>
+      </div>
+
+      <!-- Tab 2: Vocab Mini Games -->
+      <div id="vocab-tab-game" class="hidden">
+        <div class="bg-white rounded-3xl p-6 sm:p-8 border-3 border-amber-300 shadow-md">
+          <div class="flex items-center justify-between mb-4">
+            <span class="text-xs font-bold text-amber-700 bg-amber-100 px-3 py-1 rounded-full" id="vocab-game-step">Soalan 1 / 4</span>
+            <span class="text-xs text-slate-400">Padankan gambar &amp; maksud yang betul</span>
+          </div>
+          <div id="vocab-quiz-container">
+            <!-- Injected by script -->
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================
+         VIEW 3: MODULE B - LISTENING MISSION
+         ======================================================== -->
+    <section id="view-listening" class="hidden">
+      <div class="flex items-center justify-between bg-white rounded-2xl p-4 border-2 border-sky-300 shadow-sm mb-6">
+        <button onclick="app.navigate('home')" class="btn-3d bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold px-4 py-2 rounded-xl text-sm">
+          &larr; Peta Utama
+        </button>
+        <div class="text-center">
+          <span class="text-xs uppercase font-extrabold text-sky-600 tracking-wider">Modul B • Animal Park</span>
+          <h3 class="text-lg sm:text-xl font-bold text-slate-800">Listening Mission</h3>
+        </div>
+        <div class="text-xs font-bold text-sky-700 bg-sky-50 px-3 py-1.5 rounded-xl border border-sky-200">
+          Tahap: Tahun 3
+        </div>
+      </div>
+
+      <div class="bg-white rounded-3xl p-6 sm:p-8 border-3 border-sky-300 shadow-md max-w-2xl mx-auto">
+        <!-- Progress bar -->
+        <div class="w-full bg-slate-100 h-3 rounded-full overflow-hidden mb-6">
+          <div id="listening-progress" class="bg-sky-400 h-full w-1/5 transition-all duration-300"></div>
+        </div>
+
+        <!-- Instruction banner in BM -->
+        <div class="bg-sky-50 border-2 border-sky-200 rounded-2xl p-4 mb-6 flex items-start gap-3">
+          <span class="text-2xl">🎧</span>
+          <div>
+            <h4 class="font-bold text-sky-900 text-sm" id="listening-instruction-title">Arahan:</h4>
+            <p class="text-xs text-sky-800" id="listening-instruction-bm">Tekan butang pembesar suara untuk mendengar, kemudian pilih jawapan yang tepat.</p>
+          </div>
+        </div>
+
+        <!-- Big Audio Button & Waveform placeholder -->
+        <div class="flex flex-col items-center justify-center my-6">
+          <button id="btn-play-listening-audio" onclick="app.listening.playAudio()" class="btn-3d w-28 h-28 rounded-3xl bg-gradient-to-tr from-sky-400 to-blue-500 text-white flex flex-col items-center justify-center border-4 border-sky-200 hover:brightness-105 active:scale-95 transition shadow-lg group">
+            <span class="text-4xl group-hover:scale-125 transition">🔊</span>
+            <span class="text-xs font-bold mt-1 uppercase tracking-wider">Play Audio</span>
+          </button>
+          <div class="flex gap-2 mt-3">
+            <button onclick="app.listening.playAudio(0.8)" class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1 rounded-full font-bold">
+              🐢 Main Perlahan
+            </button>
+            <button onclick="app.listening.playAudio(1.0)" class="text-xs bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-1 rounded-full font-bold">
+              🔁 Ulang Biasa
+            </button>
+          </div>
+        </div>
+
+        <!-- Question Text & Options -->
+        <div id="listening-interactive-area" class="mt-4">
+          <!-- Dynamic options loaded by script -->
+        </div>
+
+        <!-- Feedback alert -->
+        <div id="listening-feedback" class="mt-6 hidden p-4 rounded-2xl text-sm font-semibold"></div>
+      </div>
+    </section>
+
+    <!-- ========================================================
+         VIEW 4: MODULE C - GRAMMAR CHALLENGE
+         ======================================================== -->
+    <section id="view-grammar" class="hidden">
+      <div class="flex items-center justify-between bg-white rounded-2xl p-4 border-2 border-emerald-300 shadow-sm mb-6">
+        <button onclick="app.navigate('home')" class="btn-3d bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold px-4 py-2 rounded-xl text-sm">
+          &larr; Peta Utama
+        </button>
+        <div class="text-center">
+          <span class="text-xs uppercase font-extrabold text-emerald-600 tracking-wider">Modul C • Mystery Library</span>
+          <h3 class="text-lg sm:text-xl font-bold text-slate-800">Grammar Challenge</h3>
+        </div>
+        <div class="text-xs font-bold text-emerald-800 bg-emerald-50 px-3 py-1.5 rounded-xl border border-emerald-200">
+          Tatabahasa Asas
+        </div>
+      </div>
+
+      <div class="max-w-2xl mx-auto bg-white rounded-3xl p-6 sm:p-8 border-3 border-emerald-300 shadow-md">
+        <!-- Topic Indicator Badge -->
+        <div class="flex items-center justify-between mb-4">
+          <span id="grammar-topic-badge" class="bg-emerald-100 text-emerald-900 font-bold text-xs px-3 py-1 rounded-full">
+            Topik: Present Continuous Tense
+          </span>
+          <span id="grammar-counter" class="text-xs text-slate-400 font-bold">Soalan 1 / 6</span>
+        </div>
+
+        <!-- Grammar Prompt Box -->
+        <div class="bg-amber-50 border-2 border-amber-200 rounded-2xl p-5 mb-6 text-center">
+          <p class="text-xs text-slate-500 mb-1" id="grammar-helper-note">Lengkapkan ayat dengan pilihan yang betul:</p>
+          <div class="text-xl sm:text-2xl font-bold text-slate-800 tracking-wide" id="grammar-sentence-prompt">
+            <!-- e.g. "Look! The monkey _______ up the tall tree right now." -->
+          </div>
+        </div>
+
+        <!-- Choice Options -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-3" id="grammar-options-container">
+          <!-- Populated by script -->
+        </div>
+
+        <!-- Malaysian BM Pedagogical Explanation Card -->
+        <div id="grammar-explanation-box" class="mt-6 hidden p-4 rounded-2xl border-2 transition-all duration-300 text-sm">
+          <!-- Text and reason populated on submit -->
+        </div>
+
+        <!-- Next button -->
+        <div class="mt-6 flex justify-end">
+          <button id="btn-grammar-next" onclick="app.grammar.nextQuestion()" class="hidden btn-3d bg-emerald-500 hover:bg-emerald-600 text-white font-bold px-6 py-2.5 rounded-xl text-sm">
+            Soalan Seterusnya &rarr;
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================
+         VIEW 5: MODULE D - SENTENCE BUILDER
+         ======================================================== -->
+    <section id="view-sentence" class="hidden">
+      <div class="flex items-center justify-between bg-white rounded-2xl p-4 border-2 border-purple-300 shadow-sm mb-6">
+        <button onclick="app.navigate('home')" class="btn-3d bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold px-4 py-2 rounded-xl text-sm">
+          &larr; Peta Utama
+        </button>
+        <div class="text-center">
+          <span class="text-xs uppercase font-extrabold text-purple-600 tracking-wider">Modul D • Adventure Island</span>
+          <h3 class="text-lg sm:text-xl font-bold text-slate-800">Sentence Builder</h3>
+        </div>
+        <div class="text-xs font-bold text-purple-800 bg-purple-50 px-3 py-1.5 rounded-xl border border-purple-200">
+          Susun Ayat
+        </div>
+      </div>
+
+      <div class="max-w-2xl mx-auto bg-white rounded-3xl p-6 sm:p-8 border-3 border-purple-300 shadow-md">
+        <div class="flex justify-between items-center mb-3">
+          <span class="text-xs bg-purple-100 text-purple-800 font-bold px-3 py-1 rounded-full" id="sentence-step-label">Misi 1 / 5</span>
+          <span class="text-xs text-slate-400">Ketik perkataan mengikut turutan tatabahasa yang betul</span>
+        </div>
+
+        <!-- Picture / Clue Context -->
+        <div class="bg-purple-50 rounded-2xl p-4 mb-4 flex items-center gap-4 border border-purple-100">
+          <div class="text-4xl" id="sentence-clue-icon">⚽</div>
+          <div>
+            <h4 class="text-sm font-bold text-purple-900" id="sentence-clue-title">Petunjuk Visual</h4>
+            <p class="text-xs text-purple-700" id="sentence-clue-bm">Pilih dan susun blok perkataan di bawah.</p>
+          </div>
+        </div>
+
+        <!-- Sentence Slot Target Area -->
+        <div class="mb-4">
+          <label class="text-xs font-bold text-slate-600 mb-1 block">Ayat yang anda susun:</label>
+          <div id="sentence-slots" class="slot-box bg-slate-50 rounded-2xl p-3 flex flex-wrap gap-2 items-center transition">
+            <!-- Chosen word chips go here -->
+          </div>
+        </div>
+
+        <!-- Available Word Chips Bank -->
+        <div class="mb-6">
+          <label class="text-xs font-bold text-slate-600 mb-1 block">Bank Perkataan (Ketik untuk pilih):</label>
+          <div id="sentence-bank" class="flex flex-wrap gap-2 p-3 bg-purple-50/50 rounded-2xl border border-dashed border-purple-200">
+            <!-- Word options rendered here -->
+          </div>
+        </div>
+
+        <!-- Action buttons -->
+        <div class="flex items-center justify-between pt-2 border-t border-slate-100">
+          <button onclick="app.sentence.clearCurrent()" class="text-xs text-slate-500 hover:text-slate-800 underline font-semibold">
+            🔄 Padam &amp; Susun Semula
+          </button>
+          <div class="flex gap-2">
+            <button onclick="app.sentence.checkAnswer()" class="btn-3d bg-purple-600 hover:bg-purple-700 text-white font-bold px-5 py-2.5 rounded-xl text-sm">
+              Semak Jawapan ✅
+            </button>
+            <button id="btn-sentence-next" onclick="app.sentence.nextSentence()" class="hidden btn-3d bg-emerald-500 hover:bg-emerald-600 text-white font-bold px-5 py-2.5 rounded-xl text-sm">
+              Seterusnya &rarr;
+            </button>
+          </div>
+        </div>
+
+        <!-- Feedback alert -->
+        <div id="sentence-feedback" class="mt-4 hidden p-3 rounded-xl text-xs font-semibold"></div>
+      </div>
+    </section>
+
+    <!-- ========================================================
+         VIEW 6: MODULE E - READING ADVENTURE
+         ======================================================== -->
+    <section id="view-reading" class="hidden">
+      <div class="flex items-center justify-between bg-white rounded-2xl p-4 border-2 border-rose-300 shadow-sm mb-6">
+        <button onclick="app.navigate('home')" class="btn-3d bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold px-4 py-2 rounded-xl text-sm">
+          &larr; Peta Utama
+        </button>
+        <div class="text-center">
+          <span class="text-xs uppercase font-extrabold text-rose-600 tracking-wider">Modul E • Story Village</span>
+          <h3 class="text-lg sm:text-xl font-bold text-slate-800">Reading Adventure</h3>
+        </div>
+        <div class="text-xs font-bold text-rose-800 bg-rose-50 px-3 py-1.5 rounded-xl border border-rose-200">
+          Kefahaman Teks
+        </div>
+      </div>
+
+      <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+        <!-- Passage Container (Left Column) -->
+        <div class="lg:col-span-7 bg-white rounded-3xl p-6 border-3 border-rose-200 shadow-md">
+          <div class="flex items-center justify-between mb-3 border-b pb-3">
+            <span class="text-xs font-bold text-rose-600 bg-rose-50 px-2.5 py-1 rounded-full uppercase" id="reading-type-tag">Short Notice</span>
+            <button onclick="app.reading.readPassageTTS()" class="text-xs flex items-center gap-1 font-bold bg-amber-100 text-amber-800 px-3 py-1 rounded-xl hover:bg-amber-200">
+              🔊 Baca Untuk Saya
+            </button>
+          </div>
+          <h4 class="text-xl font-bold text-slate-800 mb-2" id="reading-passage-title">School Sports Day Notice</h4>
+          <div class="p-4 bg-amber-50/70 border border-amber-200 rounded-2xl text-slate-700 leading-relaxed text-sm sm:text-base space-y-3 font-sans" id="reading-passage-content">
+            <!-- Injected by script -->
+          </div>
+        </div>
+
+        <!-- Questions Container (Right Column) -->
+        <div class="lg:col-span-5 bg-white rounded-3xl p-6 border-3 border-rose-300 shadow-md flex flex-col justify-between">
+          <div>
+            <div class="flex justify-between items-center mb-3">
+              <span class="text-xs font-bold text-rose-600" id="reading-question-counter">Soalan 1 / 3</span>
+              <span class="text-[11px] text-slate-400">Berdasarkan teks di sebelah</span>
+            </div>
+            <div class="text-base font-bold text-slate-800 mb-4" id="reading-question-prompt">
+              <!-- Question string -->
+            </div>
+            <div class="space-y-2.5" id="reading-choices-container">
+              <!-- Choices rendered here -->
+            </div>
+            <div id="reading-feedback" class="mt-4 hidden p-3 rounded-xl text-xs font-semibold"></div>
+          </div>
+
+          <div class="mt-6 pt-3 border-t flex justify-end">
+            <button id="btn-reading-next" onclick="app.reading.nextPassage()" class="btn-3d bg-rose-500 hover:bg-rose-600 text-white font-bold px-5 py-2.5 rounded-xl text-sm hidden">
+              Petikan Seterusnya &rarr;
+            </button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================
+         VIEW 7: MODULE F - WRITING WORKSHOP
+         ======================================================== -->
+    <section id="view-writing" class="hidden">
+      <div class="flex items-center justify-between bg-white rounded-2xl p-4 border-2 border-teal-300 shadow-sm mb-6">
+        <button onclick="app.navigate('home')" class="btn-3d bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold px-4 py-2 rounded-xl text-sm">
+          &larr; Peta Utama
+        </button>
+        <div class="text-center">
+          <span class="text-xs uppercase font-extrabold text-teal-600 tracking-wider">Modul F • Word Castle</span>
+          <h3 class="text-lg sm:text-xl font-bold text-slate-800">Writing Workshop</h3>
+        </div>
+        <div class="text-xs font-bold text-teal-800 bg-teal-50 px-3 py-1.5 rounded-xl border border-teal-200">
+          Penulisan Berpandu
+        </div>
+      </div>
+
+      <div class="max-w-2xl mx-auto bg-white rounded-3xl p-6 sm:p-8 border-3 border-teal-300 shadow-md">
+        <div class="flex justify-between items-center mb-4">
+          <span class="text-xs bg-teal-100 text-teal-800 font-bold px-3 py-1 rounded-full" id="writing-step-label">Aktiviti 1 / 4</span>
+          <span class="text-xs text-slate-400">Tulis ayat lengkap &amp; semak ejaan</span>
+        </div>
+
+        <!-- Writing Task Prompt Box -->
+        <div class="bg-teal-50/70 border border-teal-200 rounded-2xl p-5 mb-5 flex items-start gap-4">
+          <div class="text-4xl" id="writing-task-icon">🍎</div>
+          <div>
+            <h4 class="text-base font-bold text-teal-900" id="writing-task-title">Describe Healthy Habits</h4>
+            <p class="text-xs text-teal-800 mb-1" id="writing-task-prompt-bm">Lengkapkan atau bina ayat berdasarkan petunjuk yang diberikan.</p>
+            <div class="text-xs font-bold bg-white text-teal-700 px-3 py-1.5 rounded-lg border border-teal-200 inline-block mt-1" id="writing-clue-words">
+              Kata Kunci: eat / fruits / vegetables / every day
+            </div>
+          </div>
+        </div>
+
+        <!-- Input Area -->
+        <div class="mb-4">
+          <label class="text-xs font-bold text-slate-700 mb-1 block">Tulis ayat Bahasa Inggeris anda di sini:</label>
+          <textarea id="writing-input" rows="3" placeholder="Contoh: I eat fresh fruits every morning." class="w-full rounded-2xl border-2 border-slate-300 p-3 text-sm focus:border-teal-500 focus:outline-none transition"></textarea>
+          <p class="text-[11px] text-slate-400 mt-1">Pastikan anda memulakan ayat dengan huruf besar dan akhiri dengan noktah (.).</p>
+        </div>
+
+        <div class="flex items-center justify-between">
+          <button onclick="app.writing.showHint()" class="text-xs text-teal-700 bg-teal-50 hover:bg-teal-100 font-bold px-3 py-1.5 rounded-xl border border-teal-200">
+            💡 Lihat Cadangan Contoh Jawapan
+          </button>
+          <div class="flex gap-2">
+            <button onclick="app.writing.checkSubmission()" class="btn-3d bg-teal-600 hover:bg-teal-700 text-white font-bold px-5 py-2.5 rounded-xl text-sm">
+              Semak Tulisan ✍️
+            </button>
+            <button id="btn-writing-next" onclick="app.writing.nextTask()" class="hidden btn-3d bg-emerald-500 hover:bg-emerald-600 text-white font-bold px-5 py-2.5 rounded-xl text-sm">
+              Seterusnya &rarr;
+            </button>
+          </div>
+        </div>
+
+        <!-- Feedback / Sample Answer Card -->
+        <div id="writing-feedback-card" class="mt-5 hidden p-4 rounded-2xl text-xs sm:text-sm border-2">
+          <!-- Injected dynamically -->
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================
+         VIEW 8: MODULE G - STORY TIME (Interactive Storybook)
+         ======================================================== -->
+    <section id="view-story" class="hidden">
+      <div class="flex items-center justify-between bg-white rounded-2xl p-4 border-2 border-indigo-300 shadow-sm mb-6">
+        <button onclick="app.navigate('home')" class="btn-3d bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold px-4 py-2 rounded-xl text-sm">
+          &larr; Peta Utama
+        </button>
+        <div class="text-center">
+          <span class="text-xs uppercase font-extrabold text-indigo-600 tracking-wider">Modul G • Green Jungle</span>
+          <h3 class="text-lg sm:text-xl font-bold text-slate-800">Story Time: Pip &amp; The Green Jungle Key</h3>
+        </div>
+        <div class="text-xs font-bold text-indigo-800 bg-indigo-50 px-3 py-1.5 rounded-xl border border-indigo-200">
+          Original Story
+        </div>
+      </div>
+
+      <div class="max-w-3xl mx-auto bg-white rounded-3xl p-6 sm:p-8 border-3 border-indigo-200 shadow-md">
+        <!-- Story Book Header with chapter steps -->
+        <div class="flex items-center justify-between border-b pb-3 mb-6">
+          <span class="text-xs font-bold text-indigo-700 bg-indigo-50 px-3 py-1 rounded-full" id="story-chapter-indicator">Bab 1 daripada 3</span>
+          <div class="flex gap-2">
+            <button onclick="app.story.readChapterTTS()" class="btn-3d bg-amber-400 hover:bg-amber-500 text-amber-950 font-bold text-xs px-3.5 py-1.5 rounded-xl flex items-center gap-1">
+              🔊 Dengar Cerita
+            </button>
+          </div>
+        </div>
+
+        <!-- Story Illustration Card -->
+        <div class="w-full h-48 sm:h-64 rounded-2xl bg-gradient-to-tr from-emerald-100 to-indigo-50 border-2 border-indigo-100 flex items-center justify-center p-4 relative overflow-hidden mb-6">
+          <div id="story-visual-icon" class="text-6xl sm:text-7xl animate-bounceGentle">
+            🐻🔑
+          </div>
+          <div class="absolute bottom-2 left-4 text-xs font-semibold text-slate-400" id="story-caption-tag">
+            Scene 1: Pip in the ancient library
+          </div>
+        </div>
+
+        <!-- Story Text -->
+        <div class="p-4 bg-slate-50 border border-slate-200 rounded-2xl mb-6">
+          <p id="story-text-content" class="text-base sm:text-lg font-sans text-slate-800 leading-relaxed font-normal">
+            <!-- Story chapter sentences populated here -->
+          </p>
+        </div>
+
+        <!-- Chapter Comprehension Mini Check -->
+        <div class="bg-indigo-50/60 rounded-2xl p-4 border border-indigo-200 mb-6">
+          <h5 class="text-xs font-bold text-indigo-900 uppercase tracking-wider mb-2">Soalan Pantas Bab:</h5>
+          <p class="text-sm font-semibold text-slate-800 mb-3" id="story-question-prompt">Di manakah Pip menjumpai kunci misteri itu?</p>
+          <div class="grid grid-cols-1 sm:grid-cols-2 gap-2" id="story-options-container">
+            <!-- options inserted by script -->
+          </div>
+          <div id="story-feedback" class="mt-3 hidden text-xs font-bold"></div>
+        </div>
+
+        <!-- Navigation Buttons -->
+        <div class="flex justify-between items-center pt-2">
+          <button id="btn-story-prev" onclick="app.story.prevChapter()" class="text-xs font-bold text-slate-400 hover:text-slate-700 px-3 py-1.5">
+            &larr; Bab Sebelumnya
+          </button>
+          <button id="btn-story-next" onclick="app.story.nextChapter()" class="btn-3d bg-indigo-600 hover:bg-indigo-700 text-white font-bold px-6 py-2.5 rounded-xl text-sm">
+            Bab Seterusnya &rarr;
+          </button>
+        </div>
+      </div>
+    </section>
+
+    <!-- ========================================================
+         VIEW 9: MODULE H - MINI QUIZ ARENA
+         ======================================================== -->
+    <section id="view-quiz" class="hidden">
+      <div class="flex items-center justify-between bg-white rounded-2xl p-4 border-2 border-orange-300 shadow-sm mb-6">
+        <button onclick="app.navigate('home')" class="btn-3d bg-slate-100 hover:bg-slate-200 text-slate-700 font-bold px-4 py-2 rounded-xl text-sm">
+          &larr; Peta Utama
+        </button>
+        <div class="text-center">
+          <span class="text-xs uppercase font-extrabold text-orange-600 tracking-wider">Modul H • Cabaran Akhir</span>
+          <h3 class="text-lg sm:text-xl font-bold text-slate-800">Mini Quiz Arena</h3>
+        </div>
+        <div class="text-xs font-bold text-orange-800 bg-orange-50 px-3 py-1.5 rounded-xl border border-orange-200">
+          Ujian Bersepadu
+        </div>
+      </div>
+
+      <!-- Quiz Card -->
+      <div id="quiz-card-container" class="max-w-2xl mx-auto bg-white rounded-3xl p-6 sm:p-8 border-3 border-orange-300 shadow-md">
+        <!-- Progress -->
+        <div class="flex items-center justify-between mb-4">
+          <span class="text-xs bg-orange-100 text-orange-800 font-bold px-3 py-1 rounded-full" id="quiz-step-label">Soalan 1 / 6</span>
+          <span class="text-xs text-amber-600 font-bold" id="quiz-skill-tag">Skill: Grammar &amp; Tenses</span>
+        </div>
+
+        <div class="w-full bg-slate-100 h-2.5 rounded-full overflow-hidden mb-6">
+          <div id="quiz-progress-bar" class="bg-orange-500 h-full w-1/6 transition-all duration-300"></div>
+        </div>
+
+        <!-- Question Section -->
+        <div class="bg-amber-50 rounded-2xl p-5 mb-5 border border-amber-200 text-center">
+          <button id="btn-quiz-tts" onclick="app.quiz.readQuestionAudio()" class="text-xs bg-white border border-amber-300 text-amber-800 font-bold px-3 py-1 rounded-full mb-2 inline-flex items-center gap-1 hover:bg-amber-100">
+            🔊 Main Suara Soalan
+          </button>
+          <h4 class="text-lg sm:text-xl font-bold text-slate-800" id="quiz-question-text">
+            Loading question...
+          </h4>
+        </div>
+
+        <!-- Choices -->
+        <div class="space-y-3" id="quiz-choices-container">
+          <!-- Rendered by script -->
+        </div>
+
+        <!-- Feedback & Explanation in BM -->
+        <div id="quiz-feedback-box" class="mt-5 hidden p-4 rounded-2xl text-xs sm:text-sm font-semibold"></div>
+
+        <div class="mt-6 flex justify-end">
+          <button id="btn-quiz-next" onclick="app.quiz.nextQuestion()" class="hidden btn-3d bg-orange-500 hover:bg-orange-600 text-white font-bold px-6 py-2.5 rounded-xl text-sm">
+            Soalan Seterusnya &rarr;
+          </button>
+        </div>
+      </div>
+
+      <!-- Result & Certificate Screen (Shown upon quiz completion) -->
+      <div id="quiz-result-container" class="hidden max-w-2xl mx-auto bg-white rounded-3xl p-6 sm:p-8 border-4 border-amber-400 shadow-2xl text-center">
+        <div class="text-6xl mb-3 animate-wiggle">🎉</div>
+        <span class="bg-amber-100 text-amber-900 text-xs font-extrabold px-3 py-1 rounded-full uppercase tracking-wider">Tahniah Pengembara Cemerlang!</span>
+        <h3 class="text-2xl sm:text-3xl font-black text-slate-800 mt-2">English Adventure Year 3 Award</h3>
+        <p class="text-slate-500 text-xs sm:text-sm mt-1">Anda telah melengkapkan cabaran komprehensif Bahasa Inggeris Tahun 3.</p>
+
+        <!-- Certificate Plaque -->
+        <div class="my-6 p-6 bg-gradient-to-b from-amber-50 to-orange-50 border-3 border-dashed border-amber-400 rounded-3xl relative">
+          <div class="text-4xl sm:text-5xl font-black text-amber-700" id="quiz-final-score-display">
+            6 / 6
+          </div>
+          <p class="text-xs font-bold text-amber-800 uppercase mt-1 tracking-widest">Markah Keseluruhan</p>
+          <div class="flex justify-center gap-1 my-3 text-3xl" id="quiz-star-rating">
+            ⭐⭐⭐⭐⭐
+          </div>
+          <p class="text-xs text-slate-600 max-w-md mx-auto italic" id="quiz-final-evaluation-message">
+            "Hebat sekali! Anda telah menguasai kemahiran tatabahasa, kosa kata dan kefahaman dengan cemerlang."
+          </p>
+        </div>
+
+        <div class="flex flex-wrap justify-center gap-3">
+          <button onclick="app.quiz.startQuiz()" class="btn-3d bg-orange-500 hover:bg-orange-600 text-white font-bold px-6 py-3 rounded-2xl text-sm">
+            🔁 Ulangi Kuiz
+          </button>
+          <button onclick="app.navigate('home')" class="btn-3d bg-slate-800 hover:bg-slate-900 text-white font-bold px-6 py-3 rounded-2xl text-sm">
+            🏠 Kembali Ke Halaman Utama
+          </button>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- Help Modal -->
+  <div id="modal-help" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 border-4 border-amber-300 shadow-2xl animate-pop max-h-[90vh] overflow-y-auto custom-scroll">
+      <div class="flex justify-between items-center border-b pb-3 mb-4">
+        <h3 class="text-xl font-bold text-slate-800 flex items-center gap-2">
+          🧭 Panduan &amp; Cara Bermain
+        </h3>
+        <button onclick="app.closeModal('modal-help')" class="text-slate-400 hover:text-slate-700 text-2xl font-bold">&times;</button>
+      </div>
+      <div class="space-y-4 text-xs sm:text-sm text-slate-600 leading-relaxed">
+        <p><strong>1. Matlamat Pengembaraan:</strong> Teroka 6 modul pembelajaran untuk mengumpul bintang (⭐) sambil mengasah penguasaan Bahasa Inggeris Tahun 3.</p>
+        <p><strong>2. Audio Sebutan Asli:</strong> Setiap butang pembesar suara 🔊 akan membacakan teks dengan sebutan yang jelas dan mesra murid. Galakkan murid mendengar dan meniru sebutan (Speaking practice).</p>
+        <p><strong>3. Penerangan Dwibahasa:</strong> Arahan aktiviti disediakan dalam Bahasa Melayu untuk kemudahan anak-anak dan ibu bapa/guru, manakala latihan sepenuhnya dalam Bahasa Inggeris.</p>
+        <p><strong>4. Maklum Balas Pedagogi:</strong> Jika jawapan kurang tepat, sistem menyediakan sebab tatabahasa ringkas dalam Bahasa Melayu bagi menyokong pembelajaran kendiri.</p>
+      </div>
+      <div class="mt-6 flex justify-end">
+        <button onclick="app.closeModal('modal-help')" class="btn-3d bg-amber-400 hover:bg-amber-500 text-amber-950 font-bold px-6 py-2.5 rounded-xl text-sm">
+          Faham, Jom Mula!
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- DSKP KSSR Note Modal -->
+  <div id="modal-dskp" class="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 hidden flex items-center justify-center p-4">
+    <div class="bg-white rounded-3xl max-w-lg w-full p-6 sm:p-8 border-4 border-emerald-400 shadow-2xl animate-pop max-h-[90vh] overflow-y-auto custom-scroll">
+      <div class="flex justify-between items-center border-b pb-3 mb-4">
+        <h3 class="text-lg font-bold text-slate-800 flex items-center gap-2">
+          📋 Penjajaran Kurikulum (DSKP KSSR Semakan)
+        </h3>
+        <button onclick="app.closeModal('modal-dskp')" class="text-slate-400 hover:text-slate-700 text-2xl font-bold">&times;</button>
+      </div>
+      <div class="space-y-3 text-xs sm:text-sm text-slate-600 leading-relaxed">
+        <div class="p-3 bg-amber-50 border border-amber-300 rounded-xl text-amber-900 text-xs font-semibold">
+          ⚠️ <strong>Status Kandungan:</strong> Kandungan ini dirangka khusus berpandukan silibus CEFR KSSR Tahun 3 (Level A1 Basic User). Modul ini berfungsi sebagai draf pedagogi interaktif sokongan bilik darjah.
+        </div>
+        <ul class="list-disc pl-5 space-y-1.5 text-xs text-slate-700">
+          <li><strong>Listening:</strong> 1.2.2 Understand with support specific information and details of short simple texts.</li>
+          <li><strong>Speaking:</strong> 2.1.5 Describe people and objects using suitable words and phrases.</li>
+          <li><strong>Reading:</strong> 3.2.2 Understand specific information and details of short simple texts.</li>
+          <li><strong>Writing:</strong> 4.3.2 Spell high-frequency words accurately in guided writing tasks.</li>
+          <li><strong>Grammar Scope:</strong> Present simple routines, present continuous actions, prepositions of direction, irregular plurals, simple conjunctions (and, but, because).</li>
+        </ul>
+      </div>
+      <div class="mt-6 flex justify-end">
+        <button onclick="app.closeModal('modal-dskp')" class="btn-3d bg-emerald-500 hover:bg-emerald-600 text-white font-bold px-6 py-2.5 rounded-xl text-sm">
+          Tutup Nota
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <footer class="w-full bg-white/80 border-t border-slate-200 py-4 px-4 text-center text-xs text-slate-500">
+    <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-2">
+      <p>🐾 <strong>English Adventure Year 3</strong> &bull; Rekaan Mesra Kanak-kanak Malaysia &bull; Sesuai untuk SK, SJKC &amp; SJKT</p>
+      <div class="flex items-center space-x-3 text-slate-400">
+        <span>CEFR Aligned Draft</span>
+        <span>•</span>
+        <span>Berasaskan Web Speech &amp; Tone.js</span>
+      </div>
+    </div>
+  </footer>
+
+  <!-- ========================================================
+       CORE JAVASCRIPT APPLICATION LOGIC
+       ======================================================== -->
+  <script>
+    // Procedural sound synthesizer using Tone.js
+    const SoundFx = {
+      enabled: true,
+      synth: null,
+
+      init() {
+        if (!this.synth && window.Tone) {
+          this.synth = new Tone.PolySynth(Tone.Synth, {
+            oscillator: { type: "triangle" },
+            envelope: { attack: 0.005, decay: 0.1, sustain: 0.05, release: 0.5 }
+          }).toDestination();
+        }
+      },
+
+      playCorrect() {
+        if (!this.enabled) return;
+        try {
+          this.init();
+          const now = Tone.now();
+          this.synth.triggerAttackRelease("C5", "8n", now);
+          this.synth.triggerAttackRelease("E5", "8n", now + 0.1);
+          this.synth.triggerAttackRelease("G5", "8n", now + 0.2);
+          this.synth.triggerAttackRelease("C6", "4n", now + 0.3);
+        } catch(e) {}
+      },
+
+      playWrong() {
+        if (!this.enabled) return;
+        try {
+          this.init();
+          const now = Tone.now();
+          this.synth.triggerAttackRelease("F4", "8n", now);
+          this.synth.triggerAttackRelease("D4", "4n", now + 0.15);
+        } catch(e) {}
+      },
+
+      playPop() {
+        if (!this.enabled) return;
+        try {
+          this.init();
+          this.synth.triggerAttackRelease("B4", "16n");
+        } catch(e) {}
+      },
+
+      playFanfare() {
+        if (!this.enabled) return;
+        try {
+          this.init();
+          const now = Tone.now();
+          this.synth.triggerAttackRelease("C5", "8n", now);
+          this.synth.triggerAttackRelease("G4", "8n", now + 0.12);
+          this.synth.triggerAttackRelease("C5", "8n", now + 0.24);
+          this.synth.triggerAttackRelease("E5", "4n", now + 0.36);
+          this.synth.triggerAttackRelease("G5", "2n", now + 0.55);
+        } catch(e) {}
+      }
+    };
+
+    // Text-To-Speech engine using browser Web Speech API
+    // STRICT RULE: Only speaks when explicitly called by user interaction.
+    const SpeechEngine = {
+      isSpeaking: false,
+
+      stop() {
+        if ('speechSynthesis' in window) {
+          window.speechSynthesis.cancel();
+        }
+        this.isSpeaking = false;
+      },
+
+      speak(text, rate = 0.9, pitch = 1.1, onEndCallback = null) {
+        if (!('speechSynthesis' in window)) return;
+        this.stop(); // Stop previous voice immediately
+
+        const utterance = new SpeechSynthesisUtterance(text);
+        utterance.lang = 'en-GB'; // British English standard in Malaysian schools
+        utterance.rate = rate;
+        utterance.pitch = pitch;
+
+        // Try selecting an English voice if available
+        const voices = window.speechSynthesis.getVoices();
+        const enVoice = voices.find(v => v.lang.startsWith('en') && (v.name.includes('UK') || v.name.includes('Female') || v.name.includes('Natural')));
+        if (enVoice) utterance.voice = enVoice;
+
+        this.isSpeaking = true;
+
+        utterance.onend = () => {
+          this.isSpeaking = false;
+          if (typeof onEndCallback === 'function') {
+            onEndCallback();
+          }
+        };
+
+        utterance.onerror = () => {
+          this.isSpeaking = false;
+          if (typeof onEndCallback === 'function') {
+            onEndCallback();
+          }
+        };
+
+        window.speechSynthesis.speak(utterance);
+      }
+    };
+
+    // Main App State & Controller
+    const app = {
+      stars: 0,
+      soundOn: true,
+      currentView: 'home',
+
+      init() {
+        // Load saved stars if any
+        try {
+          const saved = localStorage.getItem('ea_year3_stars');
+          if (saved) this.stars = parseInt(saved, 10) || 0;
+        } catch(e) {}
+        this.updateStarUI();
+
+        // Initialize submodules
+        this.vocab.init();
+        this.listening.init();
+        this.grammar.init();
+        this.sentence.init();
+        this.reading.init();
+        this.writing.init();
+        this.story.init();
+        this.quiz.init();
+      },
+
+      addStars(num) {
+        this.stars += num;
+        this.updateStarUI();
+        SoundFx.playPop();
+        try {
+          localStorage.setItem('ea_year3_stars', this.stars.toString());
+        } catch(e) {}
+      },
+
+      updateStarUI() {
+        const el = document.getElementById('player-stars');
+        if (el) el.innerText = this.stars;
+      },
+
+      resetProgress() {
+        SpeechEngine.stop();
+        this.stars = 0;
+        this.updateStarUI();
+        try { localStorage.removeItem('ea_year3_stars'); } catch(e) {}
+        SoundFx.playPop();
+      },
+
+      toggleSound() {
+        this.soundOn = !this.soundOn;
+        SoundFx.enabled = this.soundOn;
+        if (!this.soundOn) {
+          SpeechEngine.stop();
+        }
+        const btn = document.getElementById('btn-sound-toggle');
+        if (btn) btn.innerText = this.soundOn ? '🔊' : '🔇';
+      },
+
+      // Completely stops any speech whenever leaving/switching pages
+      navigate(viewId) {
+        SpeechEngine.stop();
+        SoundFx.playPop();
+        const views = ['home', 'vocab', 'listening', 'grammar', 'sentence', 'reading', 'writing', 'story', 'quiz'];
+        views.forEach(v => {
+          const el = document.getElementById(`view-${v}`);
+          if (el) el.classList.add('hidden');
+        });
+        const target = document.getElementById(`view-${viewId}`);
+        if (target) {
+          target.classList.remove('hidden');
+          window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+        this.currentView = viewId;
+      },
+
+      startRandomQuest() {
+        const quests = ['vocab', 'listening', 'grammar', 'sentence', 'reading', 'writing', 'story', 'quiz'];
+        const random = quests[Math.floor(Math.random() * quests.length)];
+        this.navigate(random);
+      },
+
+      openModal(modalId) {
+        SpeechEngine.stop();
+        SoundFx.playPop();
+        const m = document.getElementById(modalId);
+        if (m) m.classList.remove('hidden');
+      },
+
+      closeModal(modalId) {
+        SpeechEngine.stop();
+        SoundFx.playPop();
+        const m = document.getElementById(modalId);
+        if (m) m.classList.add('hidden');
+      }
+    };
+
+    app.vocab = {
+      currentTheme: 'daily_routines',
+      currentTab: 'cards',
+      quizIndex: 0,
+
+      themesData: {
+        daily_routines: [
+          { word: 'brush teeth', emoji: '🪥', bm: 'menggosok gigi', sentence: 'I brush my teeth every morning and night.' },
+          { word: 'have breakfast', emoji: '🥪', bm: 'bersarapan', sentence: 'She has a healthy breakfast before going to school.' },
+          { word: 'pack schoolbag', emoji: '🎒', bm: 'mengemas beg sekolah', sentence: 'Adam packs his schoolbag carefully.' },
+          { word: 'catch the bus', emoji: '🚌', bm: 'menaiki bas', sentence: 'We catch the yellow school bus at seven.' },
+          { word: 'do homework', emoji: '📝', bm: 'membuat kerja rumah', sentence: 'Mei Ling does her English homework in the afternoon.' },
+          { word: 'go to bed', emoji: '🛏️', bm: 'masuk tidur', sentence: 'I go to bed early at nine o\'clock.' }
+        ],
+        places_directions: [
+          { word: 'library', emoji: '📚', bm: 'perpustakaan', sentence: 'We read storybooks quietly in the library.' },
+          { word: 'canteen', emoji: '🍱', bm: 'kantin', sentence: 'The pupils buy noodles at the school canteen.' },
+          { word: 'playground', emoji: '🛝', bm: 'taman permainan', sentence: 'Children slide and swing at the playground.' },
+          { word: 'turn left', emoji: '⬅️', bm: 'belok ke kiri', sentence: 'Turn left to find the science laboratory.' },
+          { word: 'turn right', emoji: '➡️', bm: 'belok ke kanan', sentence: 'Turn right at the traffic lights.' },
+          { word: 'go straight', emoji: '⬆️', bm: 'jalan terus', sentence: 'Go straight along the clean corridor.' }
+        ],
+        food_health: [
+          { word: 'vegetables', emoji: '🥦', bm: 'sayur-sayuran', sentence: 'Fresh green vegetables keep our bodies strong.' },
+          { word: 'papaya', emoji: '🥭', bm: 'betik', sentence: 'Papaya is a sweet and healthy Malaysian fruit.' },
+          { word: 'water bottle', emoji: '🧴', bm: 'botol air', sentence: 'Drink enough water from your water bottle.' },
+          { word: 'exercise', emoji: '🏃', bm: 'bersenam', sentence: 'We exercise during physical education (PE) class.' },
+          { word: 'wash hands', emoji: '🧼', bm: 'mencuci tangan', sentence: 'Wash your hands with soap before eating.' },
+          { word: 'sleep well', emoji: '😴', bm: 'tidur nyenyak', sentence: 'Get eight hours of rest to sleep well.' }
+        ],
+        animals_nature: [
+          { word: 'sun bear', emoji: '🐻', bm: 'beruang matahari', sentence: 'The Malayan sun bear has a golden patch on its chest.' },
+          { word: 'hornbill', emoji: '🦜', bm: 'burung enggang', sentence: 'The rhinoceros hornbill has a colourful beak.' },
+          { word: 'tapir', emoji: '🦡', bm: 'tapir / tenuk', sentence: 'The tapir has black and white markings.' },
+          { word: 'waterfall', emoji: '🌊', bm: 'air terjun', sentence: 'Cool water splashes down the tall waterfall.' },
+          { word: 'rainforest', emoji: '🌴', bm: 'hutan hujan tropika', sentence: 'Many rare plants grow inside the rainforest.' },
+          { word: 'cave', emoji: '🦇', bm: 'gua', sentence: 'Bats sleep peacefully inside the dark cave.' }
+        ]
+      },
+
+      init() {
+        this.renderCards();
+      },
+
+      changeTheme(themeKey) {
+        SpeechEngine.stop();
+        this.currentTheme = themeKey;
+        this.renderCards();
+        this.quizIndex = 0;
+        if (this.currentTab === 'game') this.renderQuiz();
+      },
+
+      switchTab(tab) {
+        SpeechEngine.stop();
+        this.currentTab = tab;
+        const btnCards = document.getElementById('vocab-tab-btn-cards');
+        const btnGame = document.getElementById('vocab-tab-btn-game');
+        const divCards = document.getElementById('vocab-tab-cards');
+        const divGame = document.getElementById('vocab-tab-game');
+
+        if (tab === 'cards') {
+          btnCards.className = "btn-3d flex-1 py-2.5 rounded-2xl font-bold text-sm bg-amber-400 text-slate-900 border-2 border-amber-500";
+          btnGame.className = "btn-3d flex-1 py-2.5 rounded-2xl font-bold text-sm bg-white text-slate-600 border-2 border-slate-200 hover:bg-slate-50";
+          divCards.classList.remove('hidden');
+          divGame.classList.add('hidden');
+          this.renderCards();
+        } else {
+          btnGame.className = "btn-3d flex-1 py-2.5 rounded-2xl font-bold text-sm bg-amber-400 text-slate-900 border-2 border-amber-500";
+          btnCards.className = "btn-3d flex-1 py-2.5 rounded-2xl font-bold text-sm bg-white text-slate-600 border-2 border-slate-200 hover:bg-slate-50";
+          divCards.classList.add('hidden');
+          divGame.classList.remove('hidden');
+          this.renderQuiz();
+        }
+      },
+
+      renderCards() {
+        const grid = document.getElementById('vocab-cards-grid');
+        if (!grid) return;
+        const list = this.themesData[this.currentTheme] || [];
+        grid.innerHTML = '';
+
+        list.forEach(item => {
+          const card = document.createElement('div');
+          card.className = "bg-white border-2 border-amber-200 rounded-2xl p-4 shadow-sm hover:border-amber-400 transition flex flex-col justify-between";
+          card.innerHTML = `
+            <div>
+              <div class="flex items-center justify-between mb-2">
+                <span class="text-4xl">${item.emoji}</span>
+                <button onclick="SpeechEngine.speak('${item.word}')" class="w-9 h-9 rounded-xl bg-amber-100 hover:bg-amber-200 text-amber-900 flex items-center justify-center font-bold text-base transition" title="Dengar Sebutan">
+                  🔊
+                </button>
+              </div>
+              <h4 class="text-lg font-bold text-slate-800 capitalize">${item.word}</h4>
+              <p class="text-xs text-amber-800 font-medium mb-3">Maksud: <span class="italic font-normal">${item.bm}</span></p>
+              <div class="bg-amber-50/60 p-2.5 rounded-xl border border-amber-100 text-xs text-slate-700 leading-relaxed font-sans">
+                "${item.sentence}"
+              </div>
+            </div>
+            <button onclick="SpeechEngine.speak('${item.sentence.replace(/'/g, "\\'")}')" class="mt-3 text-[11px] text-amber-700 hover:text-amber-900 font-bold flex items-center justify-center gap-1 bg-amber-50 py-1.5 rounded-lg border border-amber-200">
+              🗣️ Dengar Ayat Penuh
+            </button>
+          `;
+          grid.appendChild(card);
+        });
+      },
+
+      renderQuiz() {
+        const container = document.getElementById('vocab-quiz-container');
+        const stepEl = document.getElementById('vocab-game-step');
+        const list = this.themesData[this.currentTheme];
+        const target = list[this.quizIndex % list.length];
+        stepEl.innerText = `Soalan ${(this.quizIndex % list.length) + 1} / ${list.length}`;
+
+        const choices = [target];
+        while (choices.length < 3) {
+          const rand = list[Math.floor(Math.random() * list.length)];
+          if (!choices.includes(rand)) choices.push(rand);
+        }
+        choices.sort(() => Math.random() - 0.5);
+
+        container.innerHTML = `
+          <div class="text-center my-4">
+            <span class="text-6xl inline-block mb-3 animate-bounceGentle">${target.emoji}</span>
+            <p class="text-sm text-slate-500 font-medium mb-1">Pilih perkataan Bahasa Inggeris bagi maksud:</p>
+            <h4 class="text-xl font-bold text-amber-900 bg-amber-50 inline-block px-4 py-1.5 rounded-2xl border border-amber-300">
+              "${target.bm}"
+            </h4>
+            <div class="mt-2">
+              <button onclick="SpeechEngine.speak('${target.word}')" class="text-xs bg-amber-100 hover:bg-amber-200 text-amber-900 font-bold px-3 py-1 rounded-full border border-amber-300 inline-flex items-center gap-1">
+                🔊 Dengar Pembayang Suara
+              </button>
+            </div>
+          </div>
+          <div class="grid grid-cols-1 sm:grid-cols-3 gap-3 my-6">
+            ${choices.map(c => `
+              <button onclick="app.vocab.checkQuiz('${c.word}', '${target.word}')" class="btn-3d bg-white border-2 border-slate-300 hover:border-amber-400 p-4 rounded-2xl text-center font-bold text-slate-800 capitalize text-sm">
+                ${c.word}
+              </button>
+            `).join('')}
+          </div>
+          <div id="vocab-game-feedback" class="text-center text-xs font-bold min-h-[24px]"></div>
+        `;
+      },
+
+      checkQuiz(selected, correct) {
+        const fb = document.getElementById('vocab-game-feedback');
+        if (selected === correct) {
+          SoundFx.playCorrect();
+          app.addStars(1);
+          fb.innerHTML = `<span class="text-emerald-600 bg-emerald-50 px-3 py-1 rounded-full border border-emerald-200">✅ Tepat sekali! "${correct}" bermaksud yang dinyatakan. (+1 ⭐)</span>`;
+          // No automatic speech here! Advances smoothly after visual feedback.
+          setTimeout(() => {
+            this.quizIndex++;
+            this.renderQuiz();
+          }, 1400);
+        } else {
+          SoundFx.playWrong();
+          fb.innerHTML = `<span class="text-rose-600 bg-rose-50 px-3 py-1 rounded-full border border-rose-200">❌ Cuba lagi! Anda boleh tekan butang pembayang suara di atas jika perlu.</span>`;
+        }
+      }
+    };
+
+    app.listening = {
+      index: 0,
+      tasks: [
+        {
+          audioText: "The baby tapir is drinking fresh water near the quiet waterfall.",
+          instructionBm: "Dengar dengan teliti dan pilih gambar aktiviti yang dinyatakan:",
+          question: "What is the baby tapir doing?",
+          options: [
+            { text: "Drinking fresh water near the waterfall", icon: "🦡💧", correct: true },
+            { text: "Sleeping high on a tall jungle tree", icon: "🌴😴", correct: false },
+            { text: "Running quickly across the playground", icon: "🏃‍♂️🛝", correct: false }
+          ],
+          explanation: "Audio menyatakan 'The baby tapir is drinking fresh water near the quiet waterfall'."
+        },
+        {
+          audioText: "Attention students! Please wash your hands with soap before entering the school canteen.",
+          instructionBm: "Dengar arahan guru dan kenal pasti tindakan yang perlu dilakukan:",
+          question: "What must students do before entering the canteen?",
+          options: [
+            { text: "Run to the playground", icon: "🏃‍♀️", correct: false },
+            { text: "Wash their hands with soap", icon: "🧼✨", correct: true },
+            { text: "Pack their schoolbags", icon: "🎒", correct: false }
+          ],
+          explanation: "Arahan guru ialah 'wash your hands with soap before entering the school canteen'."
+        },
+        {
+          audioText: "Excuse me, where is the library? Go straight along the corridor, then turn left.",
+          instructionBm: "Dengar panduan arah dan pilih jalan yang betul:",
+          question: "How do you get to the library?",
+          options: [
+            { text: "Go straight, then turn left", icon: "⬆️⬅️", correct: true },
+            { text: "Turn right immediately", icon: "➡️", correct: false },
+            { text: "Go backward to the field", icon: "⬇️", correct: false }
+          ],
+          explanation: "Petunjuk arah memberitahu: 'Go straight along the corridor, then turn left'."
+        },
+        {
+          audioText: "My favourite hobby is reading fantasy adventure books on rainy Sundays.",
+          instructionBm: "Dengar hobi watak dan pilih pernyataan yang benar:",
+          question: "When does the speaker like to read fantasy books?",
+          options: [
+            { text: "On sunny Monday mornings", icon: "☀️", correct: false },
+            { text: "On rainy Sundays", icon: "🌧️📖", correct: true },
+            { text: "Every Friday afternoon", icon: "⛅", correct: false }
+          ],
+          explanation: "Watak gemar membaca 'on rainy Sundays' (pada hari Ahad yang hujan)."
+        },
+        {
+          audioText: "Put the yellow recycling bin beside the classroom door.",
+          instructionBm: "Dengar arahan meletakkan barang:",
+          question: "Where should the yellow bin be placed?",
+          options: [
+            { text: "Beside the classroom door", icon: "🚪🗑️", correct: true },
+            { text: "Under the teacher's big desk", icon: "🪑", correct: false },
+            { text: "Outside in the garden", icon: "🪴", correct: false }
+          ],
+          explanation: "Tempat yang disebut ialah 'beside the classroom door' (di sebelah pintu kelas)."
+        }
+      ],
+
+      init() {
+        this.renderStep();
+      },
+
+      playAudio(rate = 0.9) {
+        const item = this.tasks[this.index];
+        SpeechEngine.speak(item.audioText, rate, 1.05);
+      },
+
+      renderStep() {
+        const item = this.tasks[this.index];
+        const progress = document.getElementById('listening-progress');
+        const instBm = document.getElementById('listening-instruction-bm');
+        const area = document.getElementById('listening-interactive-area');
+        const fb = document.getElementById('listening-feedback');
+        fb.classList.add('hidden');
+
+        progress.style.width = `${((this.index + 1) / this.tasks.length) * 100}%`;
+        instBm.innerText = item.instructionBm;
+
+        area.innerHTML = `
+          <div class="text-center mb-4">
+            <h4 class="text-base font-bold text-slate-800">${item.question}</h4>
+          </div>
+          <div class="space-y-2.5">
+            ${item.options.map((opt, i) => `
+              <button onclick="app.listening.selectOption(${i})" class="btn-3d w-full p-3.5 bg-white border-2 border-slate-200 hover:border-sky-400 rounded-2xl flex items-center justify-between text-left text-sm font-semibold text-slate-700 transition">
+                <span class="flex items-center gap-3">
+                  <span class="text-2xl">${opt.icon}</span>
+                  <span>${opt.text}</span>
+                </span>
+                <span class="text-xs text-sky-600 font-bold">&rarr;</span>
+              </button>
+            `).join('')}
+          </div>
+        `;
+        // NO automatic playback on load! Murid mesti tekan butang "Play Audio".
+      },
+
+      selectOption(choiceIdx) {
+        const item = this.tasks[this.index];
+        const chosen = item.options[choiceIdx];
+        const fb = document.getElementById('listening-feedback');
+        fb.classList.remove('hidden');
+
+        if (chosen.correct) {
+          SoundFx.playCorrect();
+          app.addStars(1);
+          fb.className = "mt-6 p-4 rounded-2xl text-sm font-semibold bg-emerald-50 text-emerald-800 border-2 border-emerald-300";
+          fb.innerHTML = `
+            🎉 <strong>Hebat! Pendengaran anda sangat tajam.</strong>
+            <p class="text-xs text-emerald-700 mt-1">${item.explanation} (+1 ⭐)</p>
+          `;
+          // Do NOT auto-speak! Move cleanly to next step after brief pause
+          setTimeout(() => {
+            this.index = (this.index + 1) % this.tasks.length;
+            this.renderStep();
+          }, 1800);
+        } else {
+          SoundFx.playWrong();
+          fb.className = "mt-6 p-4 rounded-2xl text-sm font-semibold bg-rose-50 text-rose-800 border-2 border-rose-300";
+          fb.innerHTML = `
+            ❌ <strong>Jawapan kurang tepat.</strong> Sila tekan butang <strong>Play Audio</strong> sekali lagi untuk mendengar dengan teliti.
+          `;
+        }
+      }
+    };
+
+    app.grammar = {
+      index: 0,
+      questions: [
+        {
+          topic: "Present Continuous (Sedang Berlaku)",
+          prompt: "Look! The children ________ football on the school field right now.",
+          options: ["is playing", "are playing", "plays", "played"],
+          correct: "are playing",
+          explanation: "Subjek 'The children' adalah kata nama majmuk (plural/ramai), jadi kita menggunakan kata kerja bantu 'are' + perkataan berakhiran '-ing' (are playing)."
+        },
+        {
+          topic: "Prepositions of Place (Kata Sendi Tempat)",
+          prompt: "The cat is sleeping ________ the sturdy wooden table.",
+          options: ["under", "between", "through", "during"],
+          correct: "under",
+          explanation: "'Under' bermaksud 'di bawah'. Kucing tidur di bawah meja. Pilihan lain seperti 'through' (menerusi) atau 'during' (semasa) tidak sesuai untuk kedudukan fizikal."
+        },
+        {
+          topic: "Simple Present Routine (Rutin Harian)",
+          prompt: "My sister always ________ her teeth before going to sleep.",
+          options: ["brush", "brushes", "brushing", "brushed"],
+          correct: "brushes",
+          explanation: "Bagi subjek tunggal orang ketiga (He / She / My sister), kata kerja asas perlu ditambah '-es' atau '-s' untuk rutin harian (brushes)."
+        },
+        {
+          topic: "Question Words (Kata Tanya)",
+          prompt: "________ is your English teacher? — Madam Nora.",
+          options: ["Where", "Who", "What time", "Why"],
+          correct: "Who",
+          explanation: "'Who' bermaksud 'Siapa' yang digunakan untuk bertanyakan tentang orang. Jawapannya ialah Madam Nora."
+        },
+        {
+          topic: "Plural Nouns (Kata Nama Majmuk Tidak Tetap)",
+          prompt: "There are five ________ swimming happily in the village pond.",
+          options: ["goose", "geeses", "geese", "gooses"],
+          correct: "geese",
+          explanation: "Bentuk majmuk (lebih daripada satu) bagi perkataan 'goose' ialah 'geese', bukan 'gooses' atau 'geeses'."
+        },
+        {
+          topic: "Conjunctions (Kata Hubung)",
+          prompt: "Farhan wanted to play outside, ________ it was raining heavily.",
+          options: ["so", "because", "but", "and"],
+          correct: "but",
+          explanation: "'But' (tetapi) digunakan untuk menyambungkan dua idea yang bertentangan — Farhan mahu bermain, tetapi hujan lebat di luar."
+        }
+      ],
+
+      init() {
+        this.renderQuestion();
+      },
+
+      renderQuestion() {
+        const q = this.questions[this.index];
+        document.getElementById('grammar-topic-badge').innerText = `Topik: ${q.topic}`;
+        document.getElementById('grammar-counter').innerText = `Soalan ${this.index + 1} / ${this.questions.length}`;
+        document.getElementById('grammar-sentence-prompt').innerText = q.prompt;
+        
+        const container = document.getElementById('grammar-options-container');
+        const expBox = document.getElementById('grammar-explanation-box');
+        const nextBtn = document.getElementById('btn-grammar-next');
+
+        expBox.classList.add('hidden');
+        nextBtn.classList.add('hidden');
+
+        container.innerHTML = q.options.map(opt => `
+          <button onclick="app.grammar.selectAnswer('${opt}')" class="btn-3d bg-white border-2 border-slate-300 hover:border-emerald-500 rounded-2xl py-3 px-4 font-bold text-slate-800 text-sm transition">
+            ${opt}
+          </button>
+        `).join('');
+      },
+
+      selectAnswer(selected) {
+        const q = this.questions[this.index];
+        const expBox = document.getElementById('grammar-explanation-box');
+        const nextBtn = document.getElementById('btn-grammar-next');
+        expBox.classList.remove('hidden');
+        nextBtn.classList.remove('hidden');
+
+        if (selected === q.correct) {
+          SoundFx.playCorrect();
+          app.addStars(1);
+          expBox.className = "mt-6 p-4 rounded-2xl border-2 bg-emerald-50 text-emerald-900 border-emerald-300";
+          expBox.innerHTML = `
+            <div class="flex items-start justify-between gap-2">
+              <div class="flex items-start gap-2">
+                <span class="text-xl">✅</span>
+                <div>
+                  <strong>Tahniah! Jawapan tepat: "${q.correct}"</strong>
+                  <p class="mt-1 text-xs text-emerald-800 font-normal leading-relaxed">${q.explanation}</p>
+                </div>
+              </div>
+              <button onclick="SpeechEngine.speak('${q.prompt.replace('________', q.correct)}')" class="shrink-0 bg-emerald-200 hover:bg-emerald-300 text-emerald-900 px-3 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1">
+                🔊 Dengar Ayat
+              </button>
+            </div>
+          `;
+          // No auto voice output! Voice only plays if "Dengar Ayat" button is clicked.
+        } else {
+          SoundFx.playWrong();
+          expBox.className = "mt-6 p-4 rounded-2xl border-2 bg-rose-50 text-rose-900 border-rose-300";
+          expBox.innerHTML = `
+            <div class="flex items-start gap-2">
+              <span class="text-xl">💡</span>
+              <div>
+                <strong>Jawapan kurang tepat. Jawapan yang betul ialah: "${q.correct}"</strong>
+                <p class="mt-1 text-xs text-rose-800 font-normal leading-relaxed">${q.explanation}</p>
+              </div>
+            </div>
+          `;
+        }
+      },
+
+      nextQuestion() {
+        SpeechEngine.stop();
+        this.index = (this.index + 1) % this.questions.length;
+        this.renderQuestion();
+      }
+    };
+
+    app.sentence = {
+      index: 0,
+      chosenTokens: [],
+      challenges: [
+        {
+          tokens: ["My", "brother", "plays", "football", "every", "Saturday."],
+          icon: "⚽",
+          title: "Aktiviti Hujung Minggu",
+          bmPrompt: "Susun ayat: 'Abang saya bermain bola sepak setiap hari Sabtu.'"
+        },
+        {
+          tokens: ["The", "hungry", "tapir", "is", "eating", "green", "leaves."],
+          icon: "🍃",
+          title: "Haiwan di Taman Rimba",
+          bmPrompt: "Susun ayat: 'Tapir yang lapar itu sedang memakan daun hijau.'"
+        },
+        {
+          tokens: ["We", "must", "wash", "our", "hands", "before", "eating."],
+          icon: "🧼",
+          title: "Kebersihan Diri",
+          bmPrompt: "Susun ayat: 'Kita mesti membasuh tangan sebelum makan.'"
+        },
+        {
+          tokens: ["Where", "is", "the", "new", "English", "storybook?"],
+          icon: "📖",
+          title: "Mencari Buku Cerita",
+          bmPrompt: "Susun ayat tanya: 'Di manakah buku cerita Bahasa Inggeris baharu itu?'"
+        },
+        {
+          tokens: ["Puan", "Aminah", "teaches", "art", "and", "craft", "cheerfully."],
+          icon: "🎨",
+          title: "Guru di Sekolah",
+          bmPrompt: "Susun ayat: 'Puan Aminah mengajar seni dan kraf dengan ceria.'"
+        }
+      ],
+
+      init() {
+        this.loadCurrent();
+      },
+
+      loadCurrent() {
+        this.chosenTokens = [];
+        const ch = this.challenges[this.index];
+        document.getElementById('sentence-step-label').innerText = `Misi ${this.index + 1} / ${this.challenges.length}`;
+        document.getElementById('sentence-clue-icon').innerText = ch.icon;
+        document.getElementById('sentence-clue-title').innerText = ch.title;
+        document.getElementById('sentence-clue-bm').innerText = ch.bmPrompt;
+        
+        document.getElementById('btn-sentence-next').classList.add('hidden');
+        const fb = document.getElementById('sentence-feedback');
+        fb.classList.add('hidden');
+
+        this.renderChips();
+      },
+
+      renderChips() {
+        const ch = this.challenges[this.index];
+        const slots = document.getElementById('sentence-slots');
+        const bank = document.getElementById('sentence-bank');
+
+        const unchosen = [...ch.tokens];
+        this.chosenTokens.forEach(t => {
+          const idx = unchosen.indexOf(t);
+          if (idx > -1) unchosen.splice(idx, 1);
+        });
+
+        if (this.chosenTokens.length === 0) {
+          slots.innerHTML = `<span class="text-xs text-slate-400 italic">Ketik perkataan dari bank di bawah untuk membina ayat...</span>`;
+        } else {
+          slots.innerHTML = this.chosenTokens.map((w, idx) => `
+            <span onclick="app.sentence.removeToken(${idx})" class="btn-3d bg-purple-600 text-white font-bold text-xs px-3 py-1.5 rounded-xl cursor-pointer hover:bg-purple-700 inline-flex items-center gap-1">
+              ${w} <span class="text-[10px] opacity-70">&times;</span>
+            </span>
+          `).join('');
+        }
+
+        bank.innerHTML = unchosen.map((w) => `
+          <button onclick="app.sentence.pickToken('${w}')" class="btn-3d bg-white border-2 border-purple-200 hover:border-purple-500 font-bold text-xs text-slate-800 px-3 py-1.5 rounded-xl">
+            ${w}
+          </button>
+        `).join('');
+      },
+
+      pickToken(word) {
+        this.chosenTokens.push(word);
+        SoundFx.playPop();
+        this.renderChips();
+      },
+
+      removeToken(index) {
+        this.chosenTokens.splice(index, 1);
+        SoundFx.playPop();
+        this.renderChips();
+      },
+
+      clearCurrent() {
+        this.chosenTokens = [];
+        SoundFx.playPop();
+        this.renderChips();
+        const fb = document.getElementById('sentence-feedback');
+        fb.classList.add('hidden');
+      },
+
+      checkAnswer() {
+        const ch = this.challenges[this.index];
+        const correctStr = ch.tokens.join(' ');
+        const userStr = this.chosenTokens.join(' ');
+        const fb = document.getElementById('sentence-feedback');
+        const nextBtn = document.getElementById('btn-sentence-next');
+        fb.classList.remove('hidden');
+
+        if (userStr === correctStr) {
+          SoundFx.playCorrect();
+          app.addStars(1);
+          fb.className = "mt-4 p-3 rounded-xl text-xs font-semibold bg-emerald-50 text-emerald-800 border border-emerald-300 flex items-center justify-between";
+          fb.innerHTML = `
+            <span>🌟 <strong>Tahniah!</strong> Ayat anda tepat dari segi tatabahasa dan tanda baca. (+1 ⭐)</span>
+            <button onclick="SpeechEngine.speak('${correctStr.replace(/'/g, "\\'")}')" class="ml-2 bg-emerald-200 hover:bg-emerald-300 text-emerald-900 px-2.5 py-1 rounded-lg text-xs font-bold inline-flex items-center gap-1">
+              🔊 Dengar Sebutan
+            </button>
+          `;
+          // Voice only plays if the user taps "Dengar Sebutan".
+          nextBtn.classList.remove('hidden');
+        } else {
+          SoundFx.playWrong();
+          fb.className = "mt-4 p-3 rounded-xl text-xs font-semibold bg-rose-50 text-rose-800 border border-rose-300";
+          fb.innerHTML = `⚠️ <strong>Susunan belum tepat.</strong> Pastikan susunan Subjek + Kata Kerja + Objek betul, dan periksa kedudukan tanda baca.`;
+        }
+      },
+
+      nextSentence() {
+        SpeechEngine.stop();
+        this.index = (this.index + 1) % this.challenges.length;
+        this.loadCurrent();
+      }
+    };
+
+    app.reading = {
+      index: 0,
+      passages: [
+        {
+          tag: "School Notice",
+          title: "Year 3 Recycle Hero Campaign",
+          text: `SK Seri Bintang is organising a Recycle Hero Campaign this coming Friday!
+Pupils are encouraged to bring clean plastic bottles, old newspapers, and metal drink cans from home. 
+The collection centre will be open at the school canteen from 8:00 a.m. to 10:30 a.m. 
+The class that collects the heaviest recyclable items will win a special Sun Bear trophy and storybooks for their mini-library!`,
+          questions: [
+            {
+              prompt: "On what day will the Recycle Hero Campaign take place?",
+              choices: ["On Friday", "On Sunday morning", "Next Wednesday"],
+              correct: "On Friday",
+              bmReason: "Perenggan pertama menyatakan 'this coming Friday'."
+            },
+            {
+              prompt: "Where is the collection centre located in the school?",
+              choices: ["At the school library", "At the school canteen", "Inside the computer lab"],
+              correct: "At the school canteen",
+              bmReason: "Teks menyatakan 'open at the school canteen'."
+            },
+            {
+              prompt: "What will the winning class receive as a reward?",
+              choices: ["A Sun Bear trophy and storybooks", "Ten free chocolate bars", "Gold coins from the teacher"],
+              correct: "A Sun Bear trophy and storybooks",
+              bmReason: "Teks menyebut 'win a special Sun Bear trophy and storybooks'."
+            }
+          ]
+        },
+        {
+          tag: "Nature Diary",
+          title: "A Day at the National Animal Sanctuary",
+          text: `Last Saturday, Zarif and his family visited the National Animal Sanctuary in Pahang. 
+They saw Pip the Malayan sun bear enjoying sweet wild honey. 
+Next, they walked along the wooden bridge to see two Asian elephants bathing in the cool river. 
+Zarif took many photos using his father's camera. Before leaving, they bought green souvenirs to support wildlife conservation.`,
+          questions: [
+            {
+              prompt: "What was Pip the sun bear eating?",
+              choices: ["Sweet wild honey", "Fresh fish and rice", "Green crunchy leaves"],
+              correct: "Sweet wild honey",
+              bmReason: "Teks mencatatkan 'enjoying sweet wild honey'."
+            },
+            {
+              prompt: "What were the two Asian elephants doing in the river?",
+              choices: ["Sleeping under trees", "Bathing in the cool river", "Playing football"],
+              correct: "Bathing in the cool river",
+              bmReason: "Teks menyatakan 'two Asian elephants bathing in the cool river'."
+            }
+          ]
+        }
+      ],
+
+      passageQIdx: 0,
+
+      init() {
+        this.renderPassage();
+      },
+
+      readPassageTTS() {
+        const p = this.passages[this.index];
+        SpeechEngine.speak(`${p.title}. ${p.text}`, 0.85);
+      },
+
+      renderPassage() {
+        const p = this.passages[this.index];
+        document.getElementById('reading-type-tag').innerText = p.tag;
+        document.getElementById('reading-passage-title').innerText = p.title;
+        document.getElementById('reading-passage-content').innerHTML = p.text.split('\n').map(line => `<p>${line}</p>`).join('');
+        this.renderQuestion();
+      },
+
+      renderQuestion() {
+        const p = this.passages[this.index];
+        const q = p.questions[this.passageQIdx];
+        document.getElementById('reading-question-counter').innerText = `Soalan ${this.passageQIdx + 1} / ${p.questions.length}`;
+        document.getElementById('reading-question-prompt').innerText = q.prompt;
+
+        const container = document.getElementById('reading-choices-container');
+        const fb = document.getElementById('reading-feedback');
+        const nextBtn = document.getElementById('btn-reading-next');
+        fb.classList.add('hidden');
+        nextBtn.classList.add('hidden');
+
+        container.innerHTML = q.choices.map(c => `
+          <button onclick="app.reading.selectChoice('${c.replace(/'/g, "\\'")}')" class="btn-3d w-full p-3 bg-white border-2 border-slate-200 hover:border-rose-400 rounded-xl text-left font-semibold text-xs sm:text-sm text-slate-800 transition">
+            ${c}
+          </button>
+        `).join('');
+      },
+
+      selectChoice(chosen) {
+        const p = this.passages[this.index];
+        const q = p.questions[this.passageQIdx];
+        const fb = document.getElementById('reading-feedback');
+        const nextBtn = document.getElementById('btn-reading-next');
+        fb.classList.remove('hidden');
+
+        if (chosen === q.correct) {
+          SoundFx.playCorrect();
+          app.addStars(1);
+          fb.className = "mt-4 p-3 rounded-xl text-xs font-semibold bg-emerald-50 text-emerald-800 border border-emerald-300";
+          fb.innerHTML = `✅ <strong>Tepat!</strong> Maklumat ini jelas dinyatakan dalam teks. (+1 ⭐)`;
+          // No auto speech.
+
+          if (this.passageQIdx < p.questions.length - 1) {
+            setTimeout(() => {
+              this.passageQIdx++;
+              this.renderQuestion();
+            }, 1200);
+          } else {
+            nextBtn.classList.remove('hidden');
+          }
+        } else {
+          SoundFx.playWrong();
+          fb.className = "mt-4 p-3 rounded-xl text-xs font-semibold bg-rose-50 text-rose-800 border border-rose-300";
+          fb.innerHTML = `❌ <strong>Kurang tepat.</strong> Petunjuk: ${q.bmReason}`;
+        }
+      },
+
+      nextPassage() {
+        SpeechEngine.stop();
+        this.index = (this.index + 1) % this.passages.length;
+        this.passageQIdx = 0;
+        this.renderPassage();
+      }
+    };
+
+    app.writing = {
+      index: 0,
+      tasks: [
+        {
+          icon: "🥗",
+          title: "Healthy Lunch Habits",
+          bmPrompt: "Bina ayat tentang makanan sihat. Pastikan menggunakan perkataan yang dicadangkan.",
+          keywords: ["healthy", "salad", "lunch"],
+          sample: "I like to eat a fresh and healthy salad for lunch.",
+          hint: "Contoh ayat: 'I eat healthy salad for lunch.'"
+        },
+        {
+          icon: "🚲",
+          title: "Riding a Bicycle",
+          bmPrompt: "Tulis ayat tentang menunggang basikal bersama rakan atau keluarga.",
+          keywords: ["rides", "bicycle", "park"],
+          sample: "Danish rides his blue bicycle at the community park.",
+          hint: "Contoh ayat: 'He rides his bicycle in the park.'"
+        },
+        {
+          icon: "🧹",
+          title: "Classroom Duty",
+          bmPrompt: "Tulis ayat tentang tugas membersihkan bilik darjah.",
+          keywords: ["sweeps", "classroom", "floor"],
+          sample: "Sara sweeps the classroom floor every morning.",
+          hint: "Contoh ayat: 'She sweeps the classroom floor.'"
+        },
+        {
+          icon: "🎨",
+          title: "Drawing Pictures",
+          bmPrompt: "Tulis ayat tentang aktiviti melukis pada waktu lapang.",
+          keywords: ["draws", "colourful", "pictures"],
+          sample: "Hafiz draws colourful pictures of animals.",
+          hint: "Contoh ayat: 'Aina draws colourful pictures in her book.'"
+        }
+      ],
+
+      init() {
+        this.renderTask();
+      },
+
+      renderTask() {
+        const t = this.tasks[this.index];
+        document.getElementById('writing-step-label').innerText = `Aktiviti ${this.index + 1} / ${this.tasks.length}`;
+        document.getElementById('writing-task-icon').innerText = t.icon;
+        document.getElementById('writing-task-title').innerText = t.title;
+        document.getElementById('writing-task-prompt-bm').innerText = t.bmPrompt;
+        document.getElementById('writing-clue-words').innerText = `Kata Kunci Wajib: ${t.keywords.join(' • ')}`;
+        document.getElementById('writing-input').value = '';
+
+        const fb = document.getElementById('writing-feedback-card');
+        fb.classList.add('hidden');
+        document.getElementById('btn-writing-next').classList.add('hidden');
+      },
+
+      showHint() {
+        const t = this.tasks[this.index];
+        const fb = document.getElementById('writing-feedback-card');
+        fb.classList.remove('hidden');
+        fb.className = "mt-5 p-4 rounded-2xl text-xs sm:text-sm border-2 bg-amber-50 text-amber-900 border-amber-300";
+        fb.innerHTML = `
+          <div class="flex items-start justify-between">
+            <div>
+              <strong>💡 Panduan &amp; Contoh Jawapan:</strong>
+              <p class="mt-1 font-mono text-slate-700">${t.sample}</p>
+            </div>
+            <button onclick="SpeechEngine.speak('${t.sample.replace(/'/g, "\\'")}')" class="ml-2 bg-amber-200 hover:bg-amber-300 text-amber-900 px-2.5 py-1 rounded-lg text-xs font-bold inline-flex items-center gap-1">
+              🔊 Dengar
+            </button>
+          </div>
+        `;
+        SoundFx.playPop();
+      },
+
+      checkSubmission() {
+        const t = this.tasks[this.index];
+        const input = document.getElementById('writing-input').value.trim();
+        const fb = document.getElementById('writing-feedback-card');
+        const nextBtn = document.getElementById('btn-writing-next');
+        fb.classList.remove('hidden');
+
+        if (input.length < 5) {
+          fb.className = "mt-5 p-4 rounded-2xl text-xs sm:text-sm border-2 bg-rose-50 text-rose-800 border-rose-300";
+          fb.innerHTML = `⚠️ Sila tulis ayat lengkap sebelum menekan butang semak.`;
+          return;
+        }
+
+        const startsWithCap = /^[A-Z]/.test(input);
+        const endsWithPunct = /[.!?]$/.test(input);
+
+        const lower = input.toLowerCase();
+        const matched = t.keywords.filter(k => lower.includes(k.toLowerCase()) || lower.includes(k.slice(0, -1)));
+
+        if (matched.length >= 1 && (startsWithCap || endsWithPunct)) {
+          SoundFx.playCorrect();
+          app.addStars(2);
+          fb.className = "mt-5 p-4 rounded-2xl text-xs sm:text-sm border-2 bg-emerald-50 text-emerald-900 border-emerald-300";
+          fb.innerHTML = `
+            <div class="flex items-start justify-between gap-2">
+              <div>
+                🎉 <strong>Syabas! Ayat anda diterima dengan baik (+2 ⭐)</strong>
+                <p class="mt-1 text-slate-700"><strong>Ayat Anda:</strong> "${input}"</p>
+                <p class="mt-1 text-emerald-800"><strong>Contoh Jawapan Alternatif:</strong> "${t.sample}"</p>
+              </div>
+              <button onclick="SpeechEngine.speak('${input.replace(/'/g, "\\'")}')" class="shrink-0 bg-emerald-200 hover:bg-emerald-300 text-emerald-900 px-3 py-1.5 rounded-xl text-xs font-bold flex items-center gap-1">
+                🔊 Dengar Ayat Anda
+              </button>
+            </div>
+          `;
+          nextBtn.classList.remove('hidden');
+          // No auto voice output! Only plays when user taps "Dengar Ayat Anda".
+        } else {
+          SoundFx.playWrong();
+          fb.className = "mt-5 p-4 rounded-2xl text-xs sm:text-sm border-2 bg-amber-50 text-amber-900 border-amber-300";
+          fb.innerHTML = `
+            💡 <strong>Panduan Penambahbaikan:</strong>
+            <ul class="list-disc pl-5 mt-1 space-y-1 text-slate-700">
+              ${!startsWithCap ? '<li>Mulakan ayat dengan <strong>huruf besar</strong>.</li>' : ''}
+              ${!endsWithPunct ? '<li>Akhiri ayat dengan <strong>tanda noktah (.)</strong>.</li>' : ''}
+              ${matched.length < 1 ? `<li>Gunakan sekurang-kurangnya kata kunci berkaitan (${t.keywords.join(', ')}).</li>` : ''}
+            </ul>
+          `;
+        }
+      },
+
+      nextTask() {
+        SpeechEngine.stop();
+        this.index = (this.index + 1) % this.tasks.length;
+        this.renderTask();
+      }
+    };
+
+    app.story = {
+      chapter: 0,
+      chapters: [
+        {
+          indicator: "Bab 1: Penemuan di Bilik Arkib Lama",
+          icon: "🐻🗝️",
+          caption: "Pip menjumpai sebuah kunci berkilauan",
+          text: "Pip the Malayan Sun Bear was helping his teacher tidy up the old school library. Suddenly, behind a shelf of heavy dictionaries, he saw a small wooden chest. Inside lay a shiny green key with curious carvings of jungle leaves. 'Where does this lock belong?' wondered Pip with wide, curious eyes.",
+          question: "What did Pip find inside the small wooden chest?",
+          options: [
+            { text: "A shiny green key", correct: true },
+            { text: "A bag of golden coins", correct: false },
+            { text: "A box of strawberry ice-cream", correct: false }
+          ]
+        },
+        {
+          indicator: "Bab 2: Petunjuk Burung Enggang",
+          icon: "🦜🌳",
+          caption: "Hani si Burung Enggang memberi petunjuk",
+          text: "Pip took the green key to Animal Park to meet his wise friend, Hani the Rhinoceros Hornbill. Hani perched proudly on a high branch. 'That key unlocks the ancient gate of the Secret Botanical Garden!' chirped Hani. 'Follow the stone path across the wooden bridge.'",
+          question: "Who told Pip about the Secret Botanical Garden?",
+          options: [
+            { text: "Hani the wise Hornbill", correct: true },
+            { text: "A naughty little monkey", correct: false },
+            { text: "The school bus driver", correct: false }
+          ]
+        },
+        {
+          indicator: "Bab 3: Taman Rahsia yang Menakjubkan",
+          icon: "🌺🦋",
+          caption: "Pintu gerbang terbuka dengan haruman bunga",
+          text: "Pip turned the key gently in the mossy gate. Click! The gate swung open into a hidden sanctuary full of giant Rafflesia flowers, colourful butterflies, and pure bubbling spring water. Pip smiled warmly. He promised to protect this natural treasure for all his school friends forever.",
+          question: "What did Pip promise at the end of the story?",
+          options: [
+            { text: "To protect the garden for all his friends", correct: true },
+            { text: "To sell the flowers at the market", correct: false },
+            { text: "To keep the key inside his pocket forever", correct: false }
+          ]
+        }
+      ],
+
+      init() {
+        this.renderChapter();
+      },
+
+      readChapterTTS() {
+        const c = this.chapters[this.chapter];
+        SpeechEngine.speak(c.text, 0.88);
+      },
+
+      renderChapter() {
+        const c = this.chapters[this.chapter];
+        document.getElementById('story-chapter-indicator').innerText = c.indicator;
+        document.getElementById('story-visual-icon').innerText = c.icon;
+        document.getElementById('story-caption-tag').innerText = c.caption;
+        document.getElementById('story-text-content').innerText = c.text;
+        document.getElementById('story-question-prompt').innerText = c.question;
+
+        const optionsContainer = document.getElementById('story-options-container');
+        const fb = document.getElementById('story-feedback');
+        fb.classList.add('hidden');
+
+        optionsContainer.innerHTML = c.options.map((opt, i) => `
+          <button onclick="app.story.checkAnswer(${i})" class="btn-3d p-3 bg-white border-2 border-indigo-200 hover:border-indigo-500 rounded-xl text-left text-xs sm:text-sm font-semibold text-slate-700 transition">
+            ${opt.text}
+          </button>
+        `).join('');
+
+        const prevBtn = document.getElementById('btn-story-prev');
+        if (this.chapter === 0) prevBtn.classList.add('opacity-0', 'pointer-events-none');
+        else prevBtn.classList.remove('opacity-0', 'pointer-events-none');
+      },
+
+      checkAnswer(idx) {
+        const c = this.chapters[this.chapter];
+        const opt = c.options[idx];
+        const fb = document.getElementById('story-feedback');
+        fb.classList.remove('hidden');
+
+        if (opt.correct) {
+          SoundFx.playCorrect();
+          app.addStars(1);
+          fb.className = "mt-3 p-2 rounded-xl text-xs font-bold text-emerald-800 bg-emerald-50 border border-emerald-300";
+          fb.innerHTML = `✅ Tepat sekali! Anda memahami jalan cerita ini dengan baik. (+1 ⭐)`;
+          // No auto voice output
+        } else {
+          SoundFx.playWrong();
+          fb.className = "mt-3 p-2 rounded-xl text-xs font-bold text-rose-800 bg-rose-50 border border-rose-300";
+          fb.innerHTML = `❌ Jawapan kurang tepat. Anda boleh tekan butang "Dengar Cerita" untuk mendengar semula.`;
+        }
+      },
+
+      nextChapter() {
+        SpeechEngine.stop();
+        if (this.chapter < this.chapters.length - 1) {
+          this.chapter++;
+          this.renderChapter();
+        } else {
+          SoundFx.playFanfare();
+          app.addStars(3);
+          const fb = document.getElementById('story-feedback');
+          fb.classList.remove('hidden');
+          fb.className = "mt-3 p-3 rounded-xl text-xs font-bold text-indigo-900 bg-indigo-100 border border-indigo-300";
+          fb.innerHTML = `🎉 Tahniah! Anda telah menamatkan seluruh cerita dan memperoleh +3 ⭐ bonus!`;
+        }
+      },
+
+      prevChapter() {
+        SpeechEngine.stop();
+        if (this.chapter > 0) {
+          this.chapter--;
+          this.renderChapter();
+        }
+      }
+    };
+
+    app.quiz = {
+      index: 0,
+      score: 0,
+      questions: [
+        {
+          skill: "Vocabulary & Word Meaning",
+          question: "Which of the following is an endangered animal native to Malaysian rainforests?",
+          choices: ["Penguin", "Malayan Sun Bear", "Polar Bear", "Kangaroo"],
+          correct: "Malayan Sun Bear",
+          explanation: "Sun bear (beruang matahari) ialah spesies beruang asal Malaysia yang mendiami hutan hujan tropika."
+        },
+        {
+          skill: "Grammar & Continuous Tense",
+          question: "Listen and read: 'Listen! The birds ________ sweet songs up in the rambutan tree.'",
+          choices: ["is singing", "are singing", "sings", "was sang"],
+          correct: "are singing",
+          explanation: "Subjek majmuk 'The birds' memerlukan 'are' + perkataan berakhiran '-ing' (are singing)."
+        },
+        {
+          skill: "Listening & Directions",
+          question: "If someone tells you 'Go straight, then turn right at the canteen', what should you do first?",
+          choices: ["Turn right immediately", "Go straight along the path", "Turn around backward", "Stop and jump"],
+          correct: "Go straight along the path",
+          explanation: "Arahan pertama yang disebut ialah 'Go straight' (jalan terus)."
+        },
+        {
+          skill: "Prepositions of Place",
+          question: "Put the clean water bottle ________ your desk so it does not fall over.",
+          choices: ["on", "underneath", "between", "inside of"],
+          correct: "on",
+          explanation: "Kita meletakkan botol air di atas meja (on your desk)."
+        },
+        {
+          skill: "Reading Deduction",
+          question: "Read: 'Aina always wears her helmet when cycling to school.' Why does Aina wear a helmet?",
+          choices: ["To look taller", "For her personal safety", "Because it is sunny", "To keep her bag clean"],
+          correct: "For her personal safety",
+          explanation: "Topi keledar (helmet) dipakai bagi menjamin keselamatan diri (safety)."
+        },
+        {
+          skill: "Sentence Structure & Punctuation",
+          question: "Which sentence has the correct capitalization and punctuation?",
+          choices: [
+            "we visit our grandparents in melaka every holiday",
+            "We visit our grandparents in Melaka every holiday.",
+            "we Visit our Grandparents in melaka every holiday?",
+            "We visits our grandparents in Melaka Every holiday,"
+          ],
+          correct: "We visit our grandparents in Melaka every holiday.",
+          explanation: "Huruf 'W' pada permulaan ayat dan 'M' untuk Melaka (kata nama khas) mesti berhuruf besar, serta diakhiri dengan tanda noktah (.)."
+        }
+      ],
+
+      init() {
+        this.startQuiz();
+      },
+
+      startQuiz() {
+        SpeechEngine.stop();
+        this.index = 0;
+        this.score = 0;
+        document.getElementById('quiz-card-container').classList.remove('hidden');
+        document.getElementById('quiz-result-container').classList.add('hidden');
+        this.renderQuestion();
+      },
+
+      readQuestionAudio() {
+        const q = this.questions[this.index];
+        SpeechEngine.speak(q.question);
+      },
+
+      renderQuestion() {
+        const q = this.questions[this.index];
+        document.getElementById('quiz-step-label').innerText = `Soalan ${this.index + 1} / ${this.questions.length}`;
+        document.getElementById('quiz-skill-tag').innerText = `Kemahiran: ${q.skill}`;
+        document.getElementById('quiz-progress-bar').style.width = `${((this.index + 1) / this.questions.length) * 100}%`;
+        document.getElementById('quiz-question-text').innerText = q.question;
+
+        const container = document.getElementById('quiz-choices-container');
+        const fb = document.getElementById('quiz-feedback-box');
+        const nextBtn = document.getElementById('btn-quiz-next');
+
+        fb.classList.add('hidden');
+        nextBtn.classList.add('hidden');
+
+        container.innerHTML = q.choices.map(c => `
+          <button onclick="app.quiz.selectChoice('${c.replace(/'/g, "\\'")}')" class="btn-3d w-full p-4 bg-white border-2 border-slate-200 hover:border-orange-400 rounded-2xl text-left font-semibold text-slate-800 text-sm transition">
+            ${c}
+          </button>
+        `).join('');
+      },
+
+      selectChoice(selected) {
+        const q = this.questions[this.index];
+        const fb = document.getElementById('quiz-feedback-box');
+        const nextBtn = document.getElementById('btn-quiz-next');
+        fb.classList.remove('hidden');
+        nextBtn.classList.remove('hidden');
+
+        if (selected === q.correct) {
+          SoundFx.playCorrect();
+          this.score++;
+          app.addStars(1);
+          fb.className = "mt-5 p-4 rounded-2xl text-xs sm:text-sm font-semibold bg-emerald-50 text-emerald-900 border border-emerald-300";
+          fb.innerHTML = `✅ <strong>Jawapan Tepat!</strong> ${q.explanation} (+1 ⭐)`;
+          // NO auto speech!
+        } else {
+          SoundFx.playWrong();
+          fb.className = "mt-5 p-4 rounded-2xl text-xs sm:text-sm font-semibold bg-rose-50 text-rose-900 border border-rose-300";
+          fb.innerHTML = `❌ <strong>Kurang tepat. Jawapan betul: "${q.correct}"</strong><p class="mt-1 font-normal text-rose-800">${q.explanation}</p>`;
+        }
+      },
+
+      nextQuestion() {
+        SpeechEngine.stop();
+        if (this.index < this.questions.length - 1) {
+          this.index++;
+          this.renderQuestion();
+        } else {
+          this.showResults();
+        }
+      },
+
+      showResults() {
+        SpeechEngine.stop();
+        document.getElementById('quiz-card-container').classList.add('hidden');
+        const resultCard = document.getElementById('quiz-result-container');
+        resultCard.classList.remove('hidden');
+
+        SoundFx.playFanfare();
+        document.getElementById('quiz-final-score-display').innerText = `${this.score} / ${this.questions.length}`;
+
+        let stars = "⭐⭐⭐⭐⭐";
+        let message = "Pencapaian luar biasa! Anda menunjukkan kemahiran Bahasa Inggeris Tahun 3 yang sangat tinggi.";
+        if (this.score <= 3) {
+          stars = "⭐⭐⭐";
+          message = "Usaha yang baik! Cuba teroka semula modul tatabahasa dan kosa kata untuk meningkatkan kemahiran anda.";
+        } else if (this.score <= 5) {
+          stars = "⭐⭐⭐⭐";
+          message = "Bagus sekali! Kebanyakan kemahiran teras telah anda fahami dengan baik.";
+        }
+
+        document.getElementById('quiz-star-rating').innerText = stars;
+        document.getElementById('quiz-final-evaluation-message').innerText = `"${message}"`;
+      }
+    };
+
+    window.addEventListener('load', () => {
+      app.init();
+    });
+
+    // Stop speech if page is hidden or unloaded
+    window.addEventListener('beforeunload', () => SpeechEngine.stop());
+    document.addEventListener('visibilitychange', () => {
+      if (document.hidden) SpeechEngine.stop();
+    });
+  </script>
+</body>
+</html>
